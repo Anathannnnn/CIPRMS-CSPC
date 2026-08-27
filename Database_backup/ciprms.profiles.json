@@ -1,0 +1,28 @@
+[{
+  "_id": {
+    "$oid": "6a20055d58a26f4b8a0ecf81"
+  },
+  "role": "admin",
+  "password": "admin123",
+  "profile": {
+    "name": "Admin User",
+    "email": "admin@cspc.edu.ph",
+    "dept": "CIRL",
+    "position": "Director",
+    "institution": "CSPC"
+  }
+},
+{
+  "_id": {
+    "$oid": "6a20055d58a26f4b8a0ecf82"
+  },
+  "role": "personnel",
+  "password": "personnel123",
+  "profile": {
+    "name": "Personnel User",
+    "email": "personnel@cspc.edu.ph",
+    "dept": "CIRL",
+    "position": "Coordinator",
+    "institution": "CSPC"
+  }
+}]

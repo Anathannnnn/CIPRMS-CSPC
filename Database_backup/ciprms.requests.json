@@ -1,0 +1,70 @@
+[{
+  "_id": {
+    "$oid": "6a20055d58a26f4b8a0ecf77"
+  },
+  "id": 1,
+  "institution": "Kyushu University",
+  "country": "Japan",
+  "type": "MOA",
+  "nature": "Research",
+  "status": "Pending",
+  "requestedBy": "Prof. Reyes",
+  "date": "May 10, 2026",
+  "notes": ""
+},
+{
+  "_id": {
+    "$oid": "6a20055d58a26f4b8a0ecf78"
+  },
+  "id": 2,
+  "institution": "UPLB",
+  "country": "Philippines",
+  "type": "MOA",
+  "nature": "Joint Program",
+  "status": "Approved",
+  "requestedBy": "Dr. Santos",
+  "date": "Apr 22, 2026",
+  "notes": ""
+},
+{
+  "_id": {
+    "$oid": "6a20055d58a26f4b8a0ecf79"
+  },
+  "id": 3,
+  "institution": "University of Warsaw",
+  "country": "Poland",
+  "type": "MOU",
+  "nature": "Student Exchange",
+  "status": "Pending",
+  "requestedBy": "Admin Rivera",
+  "date": "May 18, 2026",
+  "notes": ""
+},
+{
+  "_id": {
+    "$oid": "6a20055d58a26f4b8a0ecf7a"
+  },
+  "id": 4,
+  "institution": "PIDS",
+  "country": "Philippines",
+  "type": "MOA",
+  "nature": "Research",
+  "status": "Rejected",
+  "requestedBy": "Dr. Santos",
+  "date": "Mar 5, 2026",
+  "notes": "Budget constraints"
+},
+{
+  "_id": {
+    "$oid": "6a20055d58a26f4b8a0ecf7b"
+  },
+  "id": 5,
+  "institution": "Yonsei University",
+  "country": "South Korea",
+  "type": "MOU",
+  "nature": "Research",
+  "status": "Pending",
+  "requestedBy": "Prof. Reyes",
+  "date": "Jun 1, 2026",
+  "notes": ""
+}]

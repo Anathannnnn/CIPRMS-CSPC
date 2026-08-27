@@ -1,0 +1,133 @@
+[{
+  "_id": {
+    "$oid": "6a20522a030bd16d5917e162"
+  },
+  "id": 1,
+  "name": "Admin Rivera",
+  "email": "rivera@cspc.edu.ph",
+  "role": "Administrator",
+  "unit": "CIRL",
+  "login": "Mar 11, 2026",
+  "status": "Active"
+},
+{
+  "_id": {
+    "$oid": "6a20522a030bd16d5917e163"
+  },
+  "id": 2,
+  "name": "Dr. Santos",
+  "email": "santos@cspc.edu.ph",
+  "role": "Auth. Personnel",
+  "unit": "CCS",
+  "login": "Mar 10, 2026",
+  "status": "Active"
+},
+{
+  "_id": {
+    "$oid": "6a20522a030bd16d5917e164"
+  },
+  "id": 3,
+  "name": "Prof. Reyes",
+  "email": "reyes@cspc.edu.ph",
+  "role": "Auth. Personnel",
+  "unit": "CETE",
+  "login": "Mar 9, 2026",
+  "status": "Active"
+},
+{
+  "_id": {
+    "$oid": "6a20522a030bd16d5917e165"
+  },
+  "id": 4,
+  "name": "Engr. Cruz",
+  "email": "cruz@cspc.edu.ph",
+  "role": "View-Only",
+  "unit": "CAMS",
+  "login": "Mar 7, 2026",
+  "status": "Active"
+},
+{
+  "_id": {
+    "$oid": "6a20522a030bd16d5917e166"
+  },
+  "id": 5,
+  "name": "Dr. Garcia",
+  "email": "garcia@cspc.edu.ph",
+  "role": "Auth. Personnel",
+  "unit": "CNAS",
+  "login": "Mar 6, 2026",
+  "status": "Active"
+},
+{
+  "_id": {
+    "$oid": "6a20522a030bd16d5917e167"
+  },
+  "id": 6,
+  "name": "Prof. Dela Cruz",
+  "email": "delacruz@cspc.edu.ph",
+  "role": "Auth. Personnel",
+  "unit": "CILS",
+  "login": "Mar 5, 2026",
+  "status": "Active"
+},
+{
+  "_id": {
+    "$oid": "6a20522a030bd16d5917e168"
+  },
+  "id": 7,
+  "name": "Ms. Alcantara",
+  "email": "alcantara@cspc.edu.ph",
+  "role": "Auth. Personnel",
+  "unit": "CIRL",
+  "login": "Mar 3, 2026",
+  "status": "Active"
+},
+{
+  "_id": {
+    "$oid": "6a20522a030bd16d5917e169"
+  },
+  "id": 8,
+  "name": "Engr. Mendoza",
+  "email": "mendoza@cspc.edu.ph",
+  "role": "View-Only",
+  "unit": "CCS",
+  "login": "Feb 28, 2026",
+  "status": "Active"
+},
+{
+  "_id": {
+    "$oid": "6a20522a030bd16d5917e16a"
+  },
+  "id": 9,
+  "name": "Dr. Limbo",
+  "email": "limbo@cspc.edu.ph",
+  "role": "Auth. Personnel",
+  "unit": "CETE",
+  "login": "Feb 25, 2026",
+  "status": "Inactive"
+},
+{
+  "_id": {
+    "$oid": "6a20522a030bd16d5917e16b"
+  },
+  "id": 10,
+  "name": "Ms. Bautista",
+  "email": "bautista@cspc.edu.ph",
+  "role": "View-Only",
+  "unit": "CNAS",
+  "login": "Feb 20, 2026",
+  "status": "Active"
+},
+{
+  "_id": {
+    "$oid": "6a2052f90aef7b14a3e4a6bd"
+  },
+  "id": 11,
+  "name": "Raven",
+  "email": "raven@cspc.edu.ph",
+  "role": "View-Only",
+  "unit": "CCS",
+  "login": "Never",
+  "status": "Active",
+  "createdAt": "Jun 4, 2026"
+}]

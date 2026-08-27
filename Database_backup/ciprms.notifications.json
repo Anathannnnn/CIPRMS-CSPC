@@ -1,0 +1,252 @@
+[{
+  "_id": {
+    "$oid": "6a207f931d0dfc47bb07cf93"
+  },
+  "id": 1,
+  "module": "lifecycle",
+  "unread": true,
+  "icon": "ri-error-warning-line",
+  "color": "danger",
+  "title": "Critical: MOA Expiring Soon",
+  "desc": "Ateneo de Manila University MOA expires in 12 days. Immediate renewal action required.",
+  "tag": "Lifecycle",
+  "time": "Today, 8:00 AM"
+},
+{
+  "_id": {
+    "$oid": "6a207f931d0dfc47bb07cf94"
+  },
+  "id": 2,
+  "module": "lifecycle",
+  "unread": true,
+  "icon": "ri-time-line",
+  "color": "warning",
+  "title": "Expiry Reminder: Osaka University",
+  "desc": "MOU with Osaka University is expiring in 21 days. Please initiate renewal process.",
+  "tag": "Lifecycle",
+  "time": "Today, 8:00 AM"
+},
+{
+  "_id": {
+    "$oid": "6a207f931d0dfc47bb07cf95"
+  },
+  "id": 3,
+  "module": "lifecycle",
+  "unread": true,
+  "icon": "ri-time-line",
+  "color": "warning",
+  "title": "Expiry Reminder: Hiroshima University",
+  "desc": "MOA with Hiroshima University is expiring in 38 days.",
+  "tag": "Lifecycle",
+  "time": "Mar 13, 2026"
+},
+{
+  "_id": {
+    "$oid": "6a207f931d0dfc47bb07cf96"
+  },
+  "id": 4,
+  "module": "lifecycle",
+  "unread": false,
+  "icon": "ri-refresh-line",
+  "color": "secondary",
+  "title": "Agreement Expired: TESDA Region V",
+  "desc": "MOA with TESDA Region V has expired as of Jan 1, 2025. Please process renewal or archive.",
+  "tag": "Lifecycle",
+  "time": "Jan 1, 2025"
+},
+{
+  "_id": {
+    "$oid": "6a207f931d0dfc47bb07cf97"
+  },
+  "id": 5,
+  "module": "lifecycle",
+  "unread": false,
+  "icon": "ri-refresh-line",
+  "color": "secondary",
+  "title": "Agreement Expired: NTU Singapore",
+  "desc": "MOU with NTU Singapore has expired as of Aug 10, 2025.",
+  "tag": "Lifecycle",
+  "time": "Aug 10, 2025"
+},
+{
+  "_id": {
+    "$oid": "6a207f931d0dfc47bb07cf98"
+  },
+  "id": 6,
+  "module": "lifecycle",
+  "unread": false,
+  "icon": "ri-checkbox-circle-line",
+  "color": "success",
+  "title": "Agreement Renewed: Chonnam National",
+  "desc": "MOU with Chonnam National University has been successfully renewed for another 5 years.",
+  "tag": "Lifecycle",
+  "time": "Mar 30, 2022"
+},
+{
+  "_id": {
+    "$oid": "6a207f931d0dfc47bb07cf99"
+  },
+  "id": 7,
+  "module": "calendar",
+  "unread": true,
+  "icon": "ri-calendar-event-line",
+  "color": "primary",
+  "title": "Upcoming: ASEAN Partnership Summit",
+  "desc": "ASEAN Partnership Summit scheduled on Mar 20, 2026. Calendar event added.",
+  "tag": "Calendar",
+  "time": "Today, 9:15 AM"
+},
+{
+  "_id": {
+    "$oid": "6a207f931d0dfc47bb07cf9a"
+  },
+  "id": 8,
+  "module": "calendar",
+  "unread": true,
+  "icon": "ri-calendar-event-line",
+  "color": "primary",
+  "title": "Event Reminder: MOA Signing Ceremony",
+  "desc": "MOA Signing Ceremony with Bulacan State University is in 2 days.",
+  "tag": "Calendar",
+  "time": "Mar 12, 2026"
+},
+{
+  "_id": {
+    "$oid": "6a207f931d0dfc47bb07cf9b"
+  },
+  "id": 9,
+  "module": "calendar",
+  "unread": false,
+  "icon": "ri-calendar-check-line",
+  "color": "success",
+  "title": "Event Completed: Joint Research Forum",
+  "desc": "Joint Research Forum with Kyoto University was completed successfully on Mar 5, 2026.",
+  "tag": "Calendar",
+  "time": "Mar 5, 2026"
+},
+{
+  "_id": {
+    "$oid": "6a207f931d0dfc47bb07cf9c"
+  },
+  "id": 10,
+  "module": "calendar",
+  "unread": false,
+  "icon": "ri-calendar-close-line",
+  "color": "danger",
+  "title": "Event Cancelled: Virtual Symposium",
+  "desc": "Virtual Symposium scheduled for Feb 28 was cancelled. Please reschedule.",
+  "tag": "Calendar",
+  "time": "Feb 28, 2026"
+},
+{
+  "_id": {
+    "$oid": "6a207f931d0dfc47bb07cf9d"
+  },
+  "id": 11,
+  "module": "requests",
+  "unread": true,
+  "icon": "ri-briefcase-line",
+  "color": "info",
+  "title": "New Request: REQ-2026-011",
+  "desc": "Dr. Santos submitted a new partnership request for review. Awaiting admin approval.",
+  "tag": "Requests",
+  "time": "Mar 8, 2026"
+},
+{
+  "_id": {
+    "$oid": "6a207f931d0dfc47bb07cf9e"
+  },
+  "id": 12,
+  "module": "requests",
+  "unread": false,
+  "icon": "ri-checkbox-circle-line",
+  "color": "success",
+  "title": "Approved: REQ-2026-009",
+  "desc": "Partnership request REQ-2026-009 has been approved by Admin Rivera.",
+  "tag": "Requests",
+  "time": "Mar 2, 2026"
+},
+{
+  "_id": {
+    "$oid": "6a207f931d0dfc47bb07cf9f"
+  },
+  "id": 13,
+  "module": "requests",
+  "unread": false,
+  "icon": "ri-close-circle-line",
+  "color": "danger",
+  "title": "Declined: REQ-2026-007",
+  "desc": "Partnership request REQ-2026-007 was declined due to incomplete documentation.",
+  "tag": "Requests",
+  "time": "Feb 20, 2026"
+},
+{
+  "_id": {
+    "$oid": "6a207f931d0dfc47bb07cfa0"
+  },
+  "id": 14,
+  "module": "requests",
+  "unread": false,
+  "icon": "ri-hourglass-line",
+  "color": "warning",
+  "title": "Pending Review: REQ-2026-012",
+  "desc": "REQ-2026-012 from DOST Region V is pending admin review.",
+  "tag": "Requests",
+  "time": "Mar 13, 2026"
+},
+{
+  "_id": {
+    "$oid": "6a207f931d0dfc47bb07cfa1"
+  },
+  "id": 15,
+  "module": "requests",
+  "unread": false,
+  "icon": "ri-briefcase-line",
+  "color": "info",
+  "title": "Resubmitted: REQ-2026-005",
+  "desc": "REQ-2026-005 has been resubmitted with complete documents.",
+  "tag": "Requests",
+  "time": "Jan 30, 2026"
+},
+{
+  "_id": {
+    "$oid": "6a207f931d0dfc47bb07cfa2"
+  },
+  "id": 16,
+  "module": "registry",
+  "unread": false,
+  "icon": "ri-file-upload-line",
+  "color": "primary",
+  "title": "Document Uploaded: UST MOA",
+  "desc": "Signed MOA document for University of Santo Tomas has been uploaded to the registry.",
+  "tag": "Registry",
+  "time": "Dec 16, 2021"
+},
+{
+  "_id": {
+    "$oid": "6a207f931d0dfc47bb07cfa3"
+  },
+  "id": 17,
+  "module": "registry",
+  "unread": false,
+  "icon": "ri-file-shield-2-line",
+  "color": "success",
+  "title": "Document Verified: DLSU Agreement",
+  "desc": "De La Salle University agreement documents have been verified and archived.",
+  "tag": "Registry",
+  "time": "Feb 2, 2023"
+},
+{
+  "_id": {
+    "$oid": "6a207f931d0dfc47bb07cfa4"
+  },
+  "id": 18,
+  "module": "dashboard",
+  "unread": false,
+  "icon": "ri-bar-chart-grouped-line",
+  "color": "secondary",
+  "title": "Monthly Report Generated",
+  "desc": "March 2026 partnership activity report has been generated and is ready for download.",
+  "tag": "Dashboard",
+  "time": "Mar 1, 2026"
+}]

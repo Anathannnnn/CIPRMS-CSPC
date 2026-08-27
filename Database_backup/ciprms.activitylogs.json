@@ -1,0 +1,385 @@
+[{
+  "_id": {
+    "$oid": "6a206075e950e53ca43a15fc"
+  },
+  "id": 1,
+  "action": "ADD",
+  "record": "Osaka University — MOU added to registry",
+  "by": "Dr. Santos",
+  "role": "Auth. Personnel",
+  "date": "Mar 13, 2026 09:12 AM"
+},
+{
+  "_id": {
+    "$oid": "6a206075e950e53ca43a15fd"
+  },
+  "id": 2,
+  "action": "EDIT",
+  "record": "Ateneo de Manila MOA — updated end date to Apr 12, 2027",
+  "by": "Admin Rivera",
+  "role": "Administrator",
+  "date": "Mar 12, 2026 03:45 PM"
+},
+{
+  "_id": {
+    "$oid": "6a206075e950e53ca43a15fe"
+  },
+  "id": 3,
+  "action": "ADD",
+  "record": "Kyoto University — MOA added to registry",
+  "by": "Prof. Reyes",
+  "role": "Auth. Personnel",
+  "date": "Mar 11, 2026 10:20 AM"
+},
+{
+  "_id": {
+    "$oid": "6a206075e950e53ca43a15ff"
+  },
+  "id": 4,
+  "action": "RENEW",
+  "record": "TESDA Region V MOA — renewed; new end date Jan 1, 2030",
+  "by": "Admin Rivera",
+  "role": "Administrator",
+  "date": "Mar 10, 2026 02:00 PM"
+},
+{
+  "_id": {
+    "$oid": "6a206075e950e53ca43a1600"
+  },
+  "id": 5,
+  "action": "VIEW",
+  "record": "NTU Singapore MOU — record viewed",
+  "by": "Engr. Cruz",
+  "role": "View-Only",
+  "date": "Mar 9, 2026 11:05 AM"
+},
+{
+  "_id": {
+    "$oid": "6a206075e950e53ca43a1601"
+  },
+  "id": 6,
+  "action": "EDIT",
+  "record": "De La Salle MOA — updated coordinator to Dr. Santos",
+  "by": "Admin Rivera",
+  "role": "Administrator",
+  "date": "Mar 8, 2026 08:30 AM"
+},
+{
+  "_id": {
+    "$oid": "6a206075e950e53ca43a1602"
+  },
+  "id": 7,
+  "action": "ADD",
+  "record": "Mapua University — MOA added to registry",
+  "by": "Dr. Santos",
+  "role": "Auth. Personnel",
+  "date": "Mar 7, 2026 04:15 PM"
+},
+{
+  "_id": {
+    "$oid": "6a206075e950e53ca43a1603"
+  },
+  "id": 8,
+  "action": "DELETE",
+  "record": "Old PSRP MOU — obsolete record removed",
+  "by": "Admin Rivera",
+  "role": "Administrator",
+  "date": "Mar 6, 2026 09:50 AM"
+},
+{
+  "_id": {
+    "$oid": "6a206075e950e53ca43a1604"
+  },
+  "id": 9,
+  "action": "EDIT",
+  "record": "Chonnam National Univ. MOU — updated remarks field",
+  "by": "Prof. Reyes",
+  "role": "Auth. Personnel",
+  "date": "Mar 5, 2026 01:40 PM"
+},
+{
+  "_id": {
+    "$oid": "6a206075e950e53ca43a1605"
+  },
+  "id": 10,
+  "action": "ADD",
+  "record": "University of Macau — MOA added to registry",
+  "by": "Dr. Santos",
+  "role": "Auth. Personnel",
+  "date": "Mar 4, 2026 10:00 AM"
+},
+{
+  "_id": {
+    "$oid": "6a206075e950e53ca43a1606"
+  },
+  "id": 11,
+  "action": "APPROVE",
+  "record": "Partnership request from Bulacan State Univ. — approved",
+  "by": "Admin Rivera",
+  "role": "Administrator",
+  "date": "Mar 3, 2026 02:30 PM"
+},
+{
+  "_id": {
+    "$oid": "6a206075e950e53ca43a1607"
+  },
+  "id": 12,
+  "action": "EDIT",
+  "record": "NUS Singapore MOA — updated document link (Google Drive)",
+  "by": "Dr. Santos",
+  "role": "Auth. Personnel",
+  "date": "Mar 2, 2026 11:00 AM"
+},
+{
+  "_id": {
+    "$oid": "6a206075e950e53ca43a1608"
+  },
+  "id": 13,
+  "action": "VIEW",
+  "record": "University of Melbourne MOU — record viewed",
+  "by": "Engr. Cruz",
+  "role": "View-Only",
+  "date": "Mar 1, 2026 09:15 AM"
+},
+{
+  "_id": {
+    "$oid": "6a206075e950e53ca43a1609"
+  },
+  "id": 14,
+  "action": "RENEW",
+  "record": "NTU Singapore MOU — renewed; new end date Aug 10, 2028",
+  "by": "Admin Rivera",
+  "role": "Administrator",
+  "date": "Feb 28, 2026 03:00 PM"
+},
+{
+  "_id": {
+    "$oid": "6a206075e950e53ca43a160a"
+  },
+  "id": 15,
+  "action": "REJECT",
+  "record": "Partnership request from Univ. of Cebu — rejected (incomplete docs)",
+  "by": "Prof. Reyes",
+  "role": "Auth. Personnel",
+  "date": "Feb 27, 2026 10:45 AM"
+},
+{
+  "_id": {
+    "$oid": "6a206075e950e53ca43a160b"
+  },
+  "id": 16,
+  "action": "ADD",
+  "record": "Hiroshima University — MOA added to registry",
+  "by": "Prof. Reyes",
+  "role": "Auth. Personnel",
+  "date": "Feb 26, 2026 01:20 PM"
+},
+{
+  "_id": {
+    "$oid": "6a206075e950e53ca43a160c"
+  },
+  "id": 17,
+  "action": "EDIT",
+  "record": "DOST Region V MOA — updated nature to Joint Research",
+  "by": "Admin Rivera",
+  "role": "Administrator",
+  "date": "Feb 25, 2026 08:55 AM"
+},
+{
+  "_id": {
+    "$oid": "6a206075e950e53ca43a160d"
+  },
+  "id": 18,
+  "action": "VIEW",
+  "record": "Chonnam National University MOU — record viewed",
+  "by": "Engr. Cruz",
+  "role": "View-Only",
+  "date": "Feb 24, 2026 02:10 PM"
+},
+{
+  "_id": {
+    "$oid": "6a206075e950e53ca43a160e"
+  },
+  "id": 19,
+  "action": "APPROVE",
+  "record": "Partnership request from Hiroshima University — approved",
+  "by": "Admin Rivera",
+  "role": "Administrator",
+  "date": "Feb 23, 2026 11:30 AM"
+},
+{
+  "_id": {
+    "$oid": "6a206075e950e53ca43a160f"
+  },
+  "id": 20,
+  "action": "EDIT",
+  "record": "University of Santo Tomas MOA — changed unit from CCS to CILS",
+  "by": "Dr. Santos",
+  "role": "Auth. Personnel",
+  "date": "Feb 22, 2026 03:40 PM"
+},
+{
+  "_id": {
+    "$oid": "6a206075e950e53ca43a1610"
+  },
+  "id": 21,
+  "action": "RENEW",
+  "record": "Ateneo de Manila MOA — renewal in progress; draft submitted",
+  "by": "Prof. Reyes",
+  "role": "Auth. Personnel",
+  "date": "Feb 21, 2026 10:00 AM"
+},
+{
+  "_id": {
+    "$oid": "6a206075e950e53ca43a1611"
+  },
+  "id": 22,
+  "action": "DELETE",
+  "record": "Duplicate MOU entry for Osaka University — removed",
+  "by": "Admin Rivera",
+  "role": "Administrator",
+  "date": "Feb 20, 2026 09:30 AM"
+},
+{
+  "_id": {
+    "$oid": "6a206075e950e53ca43a1612"
+  },
+  "id": 23,
+  "action": "ADD",
+  "record": "University of Cebu — MOU added to registry",
+  "by": "Dr. Santos",
+  "role": "Auth. Personnel",
+  "date": "Feb 19, 2026 02:00 PM"
+},
+{
+  "_id": {
+    "$oid": "6a206075e950e53ca43a1613"
+  },
+  "id": 24,
+  "action": "VIEW",
+  "record": "TESDA Region V MOA — record viewed",
+  "by": "Engr. Cruz",
+  "role": "View-Only",
+  "date": "Feb 18, 2026 11:20 AM"
+},
+{
+  "_id": {
+    "$oid": "6a206075e950e53ca43a1614"
+  },
+  "id": 25,
+  "action": "EDIT",
+  "record": "Kyoto University MOA — partner email updated",
+  "by": "Prof. Reyes",
+  "role": "Auth. Personnel",
+  "date": "Feb 17, 2026 01:00 PM"
+},
+{
+  "_id": {
+    "$oid": "6a206075e950e53ca43a1615"
+  },
+  "id": 26,
+  "action": "APPROVE",
+  "record": "Partnership request from Mapua University — approved",
+  "by": "Admin Rivera",
+  "role": "Administrator",
+  "date": "Feb 14, 2026 02:45 PM"
+},
+{
+  "_id": {
+    "$oid": "6a206075e950e53ca43a1616"
+  },
+  "id": 27,
+  "action": "VIEW",
+  "record": "De La Salle University MOA — record viewed",
+  "by": "Engr. Cruz",
+  "role": "View-Only",
+  "date": "Feb 13, 2026 10:10 AM"
+},
+{
+  "_id": {
+    "$oid": "6a206075e950e53ca43a1617"
+  },
+  "id": 28,
+  "action": "EDIT",
+  "record": "Osaka University MOU — start date corrected to May 3, 2022",
+  "by": "Admin Rivera",
+  "role": "Administrator",
+  "date": "Feb 12, 2026 03:15 PM"
+},
+{
+  "_id": {
+    "$oid": "6a206075e950e53ca43a1618"
+  },
+  "id": 29,
+  "action": "REJECT",
+  "record": "Partnership request from Hanyang University — rejected",
+  "by": "Prof. Reyes",
+  "role": "Auth. Personnel",
+  "date": "Feb 11, 2026 09:00 AM"
+},
+{
+  "_id": {
+    "$oid": "6a206075e950e53ca43a1619"
+  },
+  "id": 30,
+  "action": "ADD",
+  "record": "Hanyang University — MOA added after resubmission",
+  "by": "Dr. Santos",
+  "role": "Auth. Personnel",
+  "date": "Feb 10, 2026 11:45 AM"
+},
+{
+  "_id": {
+    "$oid": "6a206075e950e53ca43a161a"
+  },
+  "id": 31,
+  "action": "RENEW",
+  "record": "De La Salle University MOA — renewed; new end date Feb 2028",
+  "by": "Admin Rivera",
+  "role": "Administrator",
+  "date": "Feb 7, 2026 02:00 PM"
+},
+{
+  "_id": {
+    "$oid": "6a206075e950e53ca43a161b"
+  },
+  "id": 32,
+  "action": "VIEW",
+  "record": "Kyoto University MOA — record viewed",
+  "by": "Engr. Cruz",
+  "role": "View-Only",
+  "date": "Feb 5, 2026 09:50 AM"
+},
+{
+  "_id": {
+    "$oid": "6a206075e950e53ca43a161c"
+  },
+  "id": 33,
+  "action": "EDIT",
+  "record": "University of Melbourne MOU — updated region to Oceania",
+  "by": "Dr. Santos",
+  "role": "Auth. Personnel",
+  "date": "Feb 3, 2026 01:30 PM"
+},
+{
+  "_id": {
+    "$oid": "6a206075e950e53ca43a161d"
+  },
+  "id": 34,
+  "action": "ADD",
+  "record": "AUN-QA Institutional Agreement — added to registry",
+  "by": "Admin Rivera",
+  "role": "Administrator",
+  "date": "Jan 30, 2026 10:00 AM"
+},
+{
+  "_id": {
+    "$oid": "6a206075e950e53ca43a161e"
+  },
+  "id": 35,
+  "action": "APPROVE",
+  "record": "Partnership request from University of Cebu — approved",
+  "by": "Admin Rivera",
+  "role": "Administrator",
+  "date": "Jan 24, 2026 11:00 AM"
+}]

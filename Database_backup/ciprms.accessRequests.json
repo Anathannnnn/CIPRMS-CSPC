@@ -1,0 +1,80 @@
+[{
+  "_id": {
+    "$oid": "6a20055d58a26f4b8a0ecf7c"
+  },
+  "id": 1,
+  "name": "Maria Reyes",
+  "email": "mreyes@example.com",
+  "dept": "Research",
+  "position": "Faculty",
+  "institution": "CSPC",
+  "reason": "Need access for research monitoring",
+  "notes": "",
+  "status": "Pending",
+  "remark": "",
+  "date": "Jun 1, 2026"
+},
+{
+  "_id": {
+    "$oid": "6a20055d58a26f4b8a0ecf7d"
+  },
+  "id": 2,
+  "name": "Juan Santos",
+  "email": "jsantos@example.com",
+  "dept": "Administration",
+  "position": "Staff",
+  "institution": "CSPC",
+  "reason": "Official admin duties",
+  "notes": "",
+  "status": "Approved",
+  "remark": "Verified",
+  "date": "May 28, 2026"
+},
+{
+  "_id": {
+    "$oid": "6a20055d58a26f4b8a0ecf7e"
+  },
+  "id": 3,
+  "name": "Ana Cruz",
+  "email": "acruz@example.com",
+  "dept": "Engineering",
+  "position": "Student",
+  "institution": "CSPC",
+  "reason": "Research paper requirement",
+  "notes": "",
+  "status": "Under Review",
+  "remark": "",
+  "date": "May 30, 2026"
+},
+{
+  "_id": {
+    "$oid": "6a20055d58a26f4b8a0ecf7f"
+  },
+  "id": 4,
+  "name": "Pedro Lim",
+  "email": "plim@example.com",
+  "dept": "Science",
+  "position": "Faculty",
+  "institution": "CSPC",
+  "reason": "Curriculum development",
+  "notes": "",
+  "status": "Rejected",
+  "remark": "Incomplete requirements",
+  "date": "Apr 10, 2026"
+},
+{
+  "_id": {
+    "$oid": "6a20055d58a26f4b8a0ecf80"
+  },
+  "id": 5,
+  "name": "Rosa Dela Cruz",
+  "email": "rdc@example.com",
+  "dept": "International Rel.",
+  "position": "Coordinator",
+  "institution": "CSPC",
+  "reason": "Partnership coordination",
+  "notes": "",
+  "status": "Pending",
+  "remark": "",
+  "date": "Jun 2, 2026"
+}]

@@ -1,0 +1,240 @@
+[{
+  "_id": {
+    "$oid": "6a20055d58a26f4b8a0ecf59"
+  },
+  "id": 1,
+  "inst": "Ateneo de Manila University",
+  "type": "MOA",
+  "cat": "Local",
+  "start": "Apr 12, 2021",
+  "expiry": "Apr 12, 2026",
+  "status": "Expiring"
+},
+{
+  "_id": {
+    "$oid": "6a20055d58a26f4b8a0ecf5a"
+  },
+  "id": 2,
+  "inst": "Osaka University",
+  "type": "MOU",
+  "cat": "International",
+  "start": "May 3, 2022",
+  "expiry": "May 3, 2026",
+  "status": "Expiring"
+},
+{
+  "_id": {
+    "$oid": "6a20055d58a26f4b8a0ecf5b"
+  },
+  "id": 3,
+  "inst": "Hiroshima University",
+  "type": "MOA",
+  "cat": "International",
+  "start": "Mar 6, 2023",
+  "expiry": "May 13, 2026",
+  "status": "Expiring"
+},
+{
+  "_id": {
+    "$oid": "6a20055d58a26f4b8a0ecf5c"
+  },
+  "id": 4,
+  "inst": "Mapua University",
+  "type": "MOU",
+  "cat": "Local",
+  "start": "Jan 20, 2023",
+  "expiry": "May 30, 2026",
+  "status": "Expiring"
+},
+{
+  "_id": {
+    "$oid": "6a20055d58a26f4b8a0ecf5d"
+  },
+  "id": 5,
+  "inst": "TESDA Region V",
+  "type": "MOA",
+  "cat": "Local",
+  "start": "Jan 1, 2020",
+  "expiry": "Jan 1, 2025",
+  "status": "Expired"
+},
+{
+  "_id": {
+    "$oid": "6a20055d58a26f4b8a0ecf5e"
+  },
+  "id": 6,
+  "inst": "NTU Singapore",
+  "type": "MOU",
+  "cat": "International",
+  "start": "Aug 10, 2022",
+  "expiry": "Aug 10, 2025",
+  "status": "Expired"
+},
+{
+  "_id": {
+    "$oid": "6a20055d58a26f4b8a0ecf5f"
+  },
+  "id": 7,
+  "inst": "CLSU",
+  "type": "MOA",
+  "cat": "Local",
+  "start": "Feb 14, 2019",
+  "expiry": "Feb 14, 2024",
+  "status": "Expired"
+},
+{
+  "_id": {
+    "$oid": "6a20055d58a26f4b8a0ecf60"
+  },
+  "id": 8,
+  "inst": "Jilin University",
+  "type": "MOU",
+  "cat": "International",
+  "start": "Sep 5, 2020",
+  "expiry": "Sep 5, 2023",
+  "status": "Expired"
+},
+{
+  "_id": {
+    "$oid": "6a20055d58a26f4b8a0ecf61"
+  },
+  "id": 9,
+  "inst": "University of Santo Tomas",
+  "type": "MOA",
+  "cat": "Local",
+  "start": "Dec 15, 2021",
+  "expiry": "Dec 15, 2026",
+  "status": "Active"
+},
+{
+  "_id": {
+    "$oid": "6a20055d58a26f4b8a0ecf62"
+  },
+  "id": 10,
+  "inst": "Chonnam National University",
+  "type": "MOU",
+  "cat": "International",
+  "start": "Mar 30, 2022",
+  "expiry": "Mar 30, 2027",
+  "status": "Active"
+},
+{
+  "_id": {
+    "$oid": "6a20055d58a26f4b8a0ecf63"
+  },
+  "id": 11,
+  "inst": "University of Macau",
+  "type": "MOA",
+  "cat": "International",
+  "start": "Jul 22, 2022",
+  "expiry": "Jul 22, 2027",
+  "status": "Active"
+},
+{
+  "_id": {
+    "$oid": "6a20055d58a26f4b8a0ecf64"
+  },
+  "id": 12,
+  "inst": "De La Salle University",
+  "type": "MOA",
+  "cat": "Local",
+  "start": "Feb 1, 2023",
+  "expiry": "Feb 1, 2028",
+  "status": "Active"
+},
+{
+  "_id": {
+    "$oid": "6a20055d58a26f4b8a0ecf65"
+  },
+  "id": 13,
+  "inst": "University of Melbourne",
+  "type": "MOU",
+  "cat": "International",
+  "start": "Jun 5, 2023",
+  "expiry": "Jun 5, 2028",
+  "status": "Active"
+},
+{
+  "_id": {
+    "$oid": "6a20055d58a26f4b8a0ecf66"
+  },
+  "id": 14,
+  "inst": "DOST Region V",
+  "type": "MOA",
+  "cat": "Local",
+  "start": "Nov 15, 2022",
+  "expiry": "Nov 15, 2026",
+  "status": "Active"
+},
+{
+  "_id": {
+    "$oid": "6a20055d58a26f4b8a0ecf67"
+  },
+  "id": 15,
+  "inst": "Kyoto University",
+  "type": "MOU",
+  "cat": "International",
+  "start": "Apr 10, 2022",
+  "expiry": "Apr 10, 2027",
+  "status": "Active"
+},
+{
+  "_id": {
+    "$oid": "6a20055d58a26f4b8a0ecf68"
+  },
+  "id": 16,
+  "inst": "AUN-QA",
+  "type": "MOA",
+  "cat": "International",
+  "start": "Mar 1, 2023",
+  "expiry": "Mar 1, 2028",
+  "status": "Active"
+},
+{
+  "_id": {
+    "$oid": "6a20055d58a26f4b8a0ecf69"
+  },
+  "id": 17,
+  "inst": "Hanyang University",
+  "type": "MOU",
+  "cat": "International",
+  "start": "Aug 20, 2021",
+  "expiry": "Aug 20, 2026",
+  "status": "Active"
+},
+{
+  "_id": {
+    "$oid": "6a20055d58a26f4b8a0ecf6a"
+  },
+  "id": 18,
+  "inst": "PNU Manila",
+  "type": "MOA",
+  "cat": "Local",
+  "start": "Oct 5, 2022",
+  "expiry": "Oct 5, 2027",
+  "status": "Active"
+},
+{
+  "_id": {
+    "$oid": "6a20055d58a26f4b8a0ecf6b"
+  },
+  "id": 19,
+  "inst": "Tohoku University",
+  "type": "MOU",
+  "cat": "International",
+  "start": "Dec 1, 2021",
+  "expiry": "Dec 1, 2026",
+  "status": "Active"
+},
+{
+  "_id": {
+    "$oid": "6a20055d58a26f4b8a0ecf6c"
+  },
+  "id": 20,
+  "inst": "Bulacan State University",
+  "type": "MOA",
+  "cat": "Local",
+  "start": "Jun 10, 2023",
+  "expiry": "Jun 10, 2028",
+  "status": "Active"
+}]
