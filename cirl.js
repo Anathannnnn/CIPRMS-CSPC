@@ -13,7 +13,7 @@ const multer = require('multer');
 const PDFDocument = require('pdfkit');
 const ExcelJS = require('exceljs');
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
-const { connectDB, getDb } = require('./db');
+const { connectDB, getDb, DB_NAME } = require('./db');
 const ocrRoutes = require('./routes/ocrRoutes');
 const { updateDocument, archiveToDocumentLibrary, archiveRequestRecordToLibrary } = require('./services/documentLibraryService');
 const googleCalendarService = require('./services/googleCalendarService');
@@ -22,7 +22,15 @@ const uploadDoc = require('./middleware/uploadMiddleware');
 const verifyMagicBytes = require('./middleware/verifyMagicBytes');
 
 const app = express();
-const PORT = 3000;
+// Render (and most PaaS hosts) inject the port to bind on via process.env.PORT.
+// Hardcoding 3000 makes the deploy fail its health check with "no open ports detected".
+const PORT = process.env.PORT || 3000;
+
+// Render terminates TLS at its edge proxy and forwards plain HTTP to this
+// process. Without trusting that proxy, req.protocol stays 'http', so
+// `cookie.secure: true` sessions are never actually sent to the browser
+// and every login silently bounces back to the sign-in page.
+app.set('trust proxy', 1);
 
 // ── PASSWORD SECURITY HELPERS ─────────────────────────────────────────────────
 const BCRYPT_SALT_ROUNDS = 12;
@@ -134,6 +142,7 @@ app.use(session({
   rolling: true,   // reset expiry on each request
   store: MongoStore.create({
     mongoUrl: process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/ciprms',
+    dbName: DB_NAME, // Atlas URIs carry no database in the path — see db.js
     collectionName: 'sessions',
     ttl: SESSION_IDLE_TIMEOUT_MS / 1000, // MongoStore expects seconds
     autoRemove: 'native' // MongoDB TTL index removes expired sessions automatically
@@ -2850,7 +2859,7 @@ function buildPartnershipExcel({ title, docs, periodLabel, generatedBy, customRe
   const sheet3 = workbook.addWorksheet('Applied Filters');
   mergedRow(sheet3, 'APPLIED REPORT FILTERS & PARAMETERS', { bold: true, size: 12, color: 'FF0A3D91', endCol: 'B' });
   sheet3.addRow([]);
-  
+
   const filterHeaderRow = sheet3.addRow(['Filter Parameter', 'Applied Value']);
   filterHeaderRow.height = 20;
   filterHeaderRow.eachCell(cell => {
@@ -2953,9 +2962,9 @@ function renderComparisonReportPdf(res, { title, groupA, groupB, groupADocs, gro
   const now = new Date().toLocaleString('en-US', { month: 'short', day: 'numeric', year: 'numeric', hour: 'numeric', minute: '2-digit' });
 
   const cspcLogoPath = path.join(__dirname, 'public', 'images', 'cspc.PNG');
-  const pqaLogoPath  = path.join(__dirname, 'public', 'images', 'PQA.JPG');
-  const tuvLogoPath  = path.join(__dirname, 'public', 'images', 'TUV.png');
-  const qsLogoPath   = path.join(__dirname, 'public', 'images', 'QS.png');
+  const pqaLogoPath = path.join(__dirname, 'public', 'images', 'PQA.JPG');
+  const tuvLogoPath = path.join(__dirname, 'public', 'images', 'TUV.png');
+  const qsLogoPath = path.join(__dirname, 'public', 'images', 'QS.png');
 
   // ── Letterhead ──
   const LOGO_SIZE = 48;
@@ -2964,9 +2973,9 @@ function renderComparisonReportPdf(res, { title, groupA, groupB, groupADocs, gro
   try { doc.image(cspcLogoPath, left, top, { width: LOGO_SIZE, height: LOGO_SIZE }); } catch (e) { /* optional */ }
   const rLS = 28;
   const rLX = right - (rLS * 3 + 8);
-  try { doc.image(pqaLogoPath,  rLX,              top + 10, { width: rLS, height: rLS }); } catch (e) { /* optional */ }
-  try { doc.image(tuvLogoPath,  rLX + rLS + 4,    top + 10, { width: rLS, height: rLS }); } catch (e) { /* optional */ }
-  try { doc.image(qsLogoPath,   rLX + (rLS+4)*2,  top + 10, { width: rLS, height: rLS }); } catch (e) { /* optional */ }
+  try { doc.image(pqaLogoPath, rLX, top + 10, { width: rLS, height: rLS }); } catch (e) { /* optional */ }
+  try { doc.image(tuvLogoPath, rLX + rLS + 4, top + 10, { width: rLS, height: rLS }); } catch (e) { /* optional */ }
+  try { doc.image(qsLogoPath, rLX + (rLS + 4) * 2, top + 10, { width: rLS, height: rLS }); } catch (e) { /* optional */ }
 
   const cX = left + LOGO_SIZE + 8;
   const cW = rLX - cX - 8;
@@ -3049,15 +3058,15 @@ function renderComparisonReportPdf(res, { title, groupA, groupB, groupADocs, gro
 
   // ── Records Tables ──
   const COL_DEFS = [
-    { key: 'inst',    label: 'Institution',  width: 175 },
-    { key: 'country', label: 'Country',      width: 80  },
-    { key: 'region',  label: 'Region',       width: 65  },
-    { key: 'type',    label: 'Type',         width: 45  },
-    { key: 'nature',  label: 'Nature',       width: 110 },
-    { key: 'unit',    label: 'Unit',         width: 50  },
-    { key: 'start',   label: 'Start',        width: 75  },
-    { key: 'end',     label: 'End',          width: 75  },
-    { key: 'status',  label: 'Status',       width: 85  }
+    { key: 'inst', label: 'Institution', width: 175 },
+    { key: 'country', label: 'Country', width: 80 },
+    { key: 'region', label: 'Region', width: 65 },
+    { key: 'type', label: 'Type', width: 45 },
+    { key: 'nature', label: 'Nature', width: 110 },
+    { key: 'unit', label: 'Unit', width: 50 },
+    { key: 'start', label: 'Start', width: 75 },
+    { key: 'end', label: 'End', width: 75 },
+    { key: 'status', label: 'Status', width: 85 }
   ];
 
   function drawTableSection(sectionTitle, sectionColor, sectionDocs) {
@@ -3317,30 +3326,30 @@ function buildComparisonExcel({ title, groupA, groupB, groupADocs, groupBDocs, p
  * two groups (A and B), and return all data needed for PDF/Excel/JSON.
  */
 async function computeComparisonReport(db, query, user) {
-  const compType    = query.compType || 'Active vs Inactive';
-  const reportType  = query.reportType || '';
-  const dateFrom    = query.dateFrom || '';
-  const dateTo      = query.dateTo   || '';
-  const unit        = query.unit     || '';
-  const agtype      = query.agtype   || '';
-  const nature      = query.nature   || '';
-  const region      = query.region   || '';
-  const country     = query.country  || '';
-  const inst        = query.inst     || '';
-  const cat         = query.cat      || '';
-  const statusQ     = query.status   || '';
-  const statusA     = query.statusA  || '';
-  const statusB     = query.statusB  || '';
+  const compType = query.compType || 'Active vs Inactive';
+  const reportType = query.reportType || '';
+  const dateFrom = query.dateFrom || '';
+  const dateTo = query.dateTo || '';
+  const unit = query.unit || '';
+  const agtype = query.agtype || '';
+  const nature = query.nature || '';
+  const region = query.region || '';
+  const country = query.country || '';
+  const inst = query.inst || '';
+  const cat = query.cat || '';
+  const statusQ = query.status || '';
+  const statusA = query.statusA || '';
+  const statusB = query.statusB || '';
 
   // Build MongoDB base filter (indexed fields)
   const filter = {};
-  if (unit)    filter.unit    = unit;
+  if (unit) filter.unit = unit;
   if (agtype && ['MOA', 'MOU'].includes(agtype)) filter.type = agtype;
-  if (nature)  filter.nature  = nature;
-  if (region)  filter.region  = region;
+  if (nature) filter.nature = nature;
+  if (region) filter.region = region;
   if (country) filter.country = buildExactCaseInsensitiveMatch(country);
-  if (cat)     filter.cat     = cat;
-  if (inst)    filter.inst    = { $regex: escapeRegexLiteral(inst), $options: 'i' };
+  if (cat) filter.cat = cat;
+  if (inst) filter.inst = { $regex: escapeRegexLiteral(inst), $options: 'i' };
 
   let docs = await db.collection('partnerships').find(filter).sort({ id: 1 }).toArray();
 
@@ -3366,10 +3375,10 @@ async function computeComparisonReport(db, query, user) {
   // Optional single-status pre-filter (for narrowing scope before comparison)
   if (effectiveStatusQ) {
     docs = docs.filter(p => {
-      if (effectiveStatusQ === 'Active')        return p.status === 'Active';
+      if (effectiveStatusQ === 'Active') return p.status === 'Active';
       if (effectiveStatusQ === 'Expiring Soon') return p.status === 'Expiring Soon';
-      if (effectiveStatusQ === 'Expired')       return p.status === 'Expired';
-      if (effectiveStatusQ === 'Inactive')      return p.status === 'Expired' || p.status === 'Inactive';
+      if (effectiveStatusQ === 'Expired') return p.status === 'Expired';
+      if (effectiveStatusQ === 'Inactive') return p.status === 'Expired' || p.status === 'Inactive';
       return p.status === effectiveStatusQ;
     });
   }
@@ -3379,22 +3388,22 @@ async function computeComparisonReport(db, query, user) {
   let groupADocs, groupBDocs;
 
   function matchStatus(p, label) {
-    if (label === 'Active')        return p.status === 'Active';
-    if (label === 'Inactive')      return p.status === 'Expired' || p.status === 'Inactive' || p.status === 'Expiring Soon';
-    if (label === 'Expired')       return p.status === 'Expired';
+    if (label === 'Active') return p.status === 'Active';
+    if (label === 'Inactive') return p.status === 'Expired' || p.status === 'Inactive' || p.status === 'Expiring Soon';
+    if (label === 'Expired') return p.status === 'Expired';
     if (label === 'Expiring Soon') return p.status === 'Expiring Soon';
-    if (label === 'Renewed')       return p.isRenewed === true;
-    if (label === 'Non-Renewed')   return p.isRenewed === false;
+    if (label === 'Renewed') return p.isRenewed === true;
+    if (label === 'Non-Renewed') return p.isRenewed === false;
     return p.status === label;
   }
 
   if (compType === 'Active vs Inactive') {
-    groupALabel = 'Active';    groupBLabel = 'Inactive';
+    groupALabel = 'Active'; groupBLabel = 'Inactive';
     groupADocs = docs.filter(p => matchStatus(p, 'Active'));
     groupBDocs = docs.filter(p => matchStatus(p, 'Inactive'));
 
   } else if (compType === 'Active vs Expired') {
-    groupALabel = 'Active';    groupBLabel = 'Expired';
+    groupALabel = 'Active'; groupBLabel = 'Expired';
     groupADocs = docs.filter(p => matchStatus(p, 'Active'));
     groupBDocs = docs.filter(p => matchStatus(p, 'Expired'));
 
@@ -4743,10 +4752,10 @@ async function computeDashboardStats(db) {
   ]);
 
   // ── Stat counters ─────────────────────────────────────────────────────────
-  const dashActive   = allPartnerships.filter(p => p.status === 'Active').length;
+  const dashActive = allPartnerships.filter(p => p.status === 'Active').length;
   const dashExpiring = allPartnerships.filter(p => p.status === 'Expiring Soon').length;
-  const dashExpired  = allPartnerships.filter(p => p.status === 'Expired').length;
-  const dashTotal    = allPartnerships.length;
+  const dashExpired = allPartnerships.filter(p => p.status === 'Expired').length;
+  const dashTotal = allPartnerships.length;
 
   // ── Expiring / Expired table rows (up to 6, soonest first) ───────────────
   const expiringRows = allPartnerships
@@ -5244,18 +5253,22 @@ if (require.main === module) {
 
     app.listen(PORT, async () => {
       const url = `http://localhost:${PORT}`;
-      console.log(`CIPRMS server running → ${url}`);
+      console.log(`CIPRMS server running → port ${PORT}`);
       try {
         await runLifecycleCheck(); // catch up immediately on startup
         setInterval(runLifecycleCheck, LIFECYCLE_CHECK_INTERVAL_MS);
       } catch (err) {
         console.error('❌ Lifecycle check failed on startup:', err);
       }
-      try {
-        const { default: open } = await import('open');
-        open(url);
-      } catch (err) {
-        console.log('Could not auto-open browser, but server is running');
+      // Only a local dev run has a browser to open — on Render this just
+      // spawns a doomed xdg-open child on every deploy.
+      if (process.env.NODE_ENV !== 'production') {
+        try {
+          const { default: open } = await import('open');
+          open(url);
+        } catch (err) {
+          console.log('Could not auto-open browser, but server is running');
+        }
       }
     });
   })();

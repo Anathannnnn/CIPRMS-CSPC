@@ -1,0 +1,495 @@
+<title>CIPRMS Deployment Runbook</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap">
+
+<style>
+  :root {
+    --bg:        #F2F5F3;
+    --surface:   #FFFFFF;
+    --sunken:    #E8EDEA;
+    --ink:       #141917;
+    --muted:     #59665F;
+    --rule:      #D6DEDA;
+    --accent:    #0E6B4E;
+    --accent-dim:#D3E7DE;
+    --danger:    #A33520;
+    --danger-dim:#F3DED8;
+    --warn:      #8A6212;
+    --warn-dim:  #F1E5C9;
+    --shadow:    0 1px 2px rgba(20,25,23,.06), 0 8px 24px -12px rgba(20,25,23,.18);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg:        #101413;
+      --surface:   #171C1A;
+      --sunken:    #0B0F0E;
+      --ink:       #E6EBE8;
+      --muted:     #93A19A;
+      --rule:      #29322E;
+      --accent:    #57C79A;
+      --accent-dim:#16302690;
+      --danger:    #E8836A;
+      --danger-dim:#33191290;
+      --warn:      #D7AC4F;
+      --warn-dim:  #2E240E90;
+      --shadow:    0 1px 2px rgba(0,0,0,.4), 0 8px 24px -12px rgba(0,0,0,.7);
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg:        #101413;
+    --surface:   #171C1A;
+    --sunken:    #0B0F0E;
+    --ink:       #E6EBE8;
+    --muted:     #93A19A;
+    --rule:      #29322E;
+    --accent:    #57C79A;
+    --accent-dim:#16302690;
+    --danger:    #E8836A;
+    --danger-dim:#33191290;
+    --warn:      #D7AC4F;
+    --warn-dim:  #2E240E90;
+    --shadow:    0 1px 2px rgba(0,0,0,.4), 0 8px 24px -12px rgba(0,0,0,.7);
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: "IBM Plex Sans", ui-sans-serif, system-ui, sans-serif;
+    font-size: 16px;
+    line-height: 1.62;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .wrap {
+    max-width: 62rem;
+    margin: 0 auto;
+    padding: clamp(2rem, 5vw, 4.5rem) clamp(1.1rem, 4vw, 2.5rem) 6rem;
+    display: flex;
+    flex-direction: column;
+    gap: 3.25rem;
+  }
+
+  /* ── type ─────────────────────────────────────────────── */
+  h1, h2, h3 {
+    font-family: Archivo, "IBM Plex Sans", system-ui, sans-serif;
+    text-wrap: balance;
+    letter-spacing: -.018em;
+    line-height: 1.15;
+    margin: 0;
+  }
+  h1 { font-size: clamp(2rem, 4.4vw, 2.9rem); font-weight: 700; }
+  h2 { font-size: clamp(1.35rem, 2.4vw, 1.65rem); font-weight: 600; }
+  h3 { font-size: 1.05rem; font-weight: 600; letter-spacing: -.008em; }
+  p  { margin: 0; max-width: 66ch; }
+  a  { color: var(--accent); text-underline-offset: .18em; }
+  a:focus-visible, summary:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  .eyebrow {
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: .7rem;
+    font-weight: 500;
+    letter-spacing: .16em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  code, kbd, pre, .mono { font-family: "IBM Plex Mono", ui-monospace, SFMono-Regular, monospace; }
+
+  p code, li code, td code {
+    font-size: .86em;
+    background: var(--sunken);
+    border: 1px solid var(--rule);
+    border-radius: 3px;
+    padding: .08em .34em;
+    word-break: break-word;
+  }
+
+  pre {
+    margin: 0;
+    background: var(--sunken);
+    border: 1px solid var(--rule);
+    border-radius: 6px;
+    padding: .9rem 1rem;
+    overflow-x: auto;
+    font-size: .82rem;
+    line-height: 1.7;
+    tab-size: 2;
+  }
+  pre .cmt { color: var(--muted); }
+  pre .hl  { color: var(--accent); font-weight: 500; }
+
+  /* ── masthead ─────────────────────────────────────────── */
+  .masthead { display: flex; flex-direction: column; gap: 1rem; }
+  .masthead p { font-size: 1.05rem; color: var(--muted); }
+  .route {
+    display: flex; align-items: center; flex-wrap: wrap;
+    gap: .55rem;
+    font-family: "IBM Plex Mono", monospace;
+    font-size: .78rem;
+    color: var(--muted);
+    padding-top: .35rem;
+  }
+  .route b {
+    color: var(--ink); font-weight: 500;
+    border: 1px solid var(--rule); background: var(--surface);
+    border-radius: 4px; padding: .2rem .5rem;
+  }
+  .route span[aria-hidden] { color: var(--accent); }
+
+  /* ── section shell ────────────────────────────────────── */
+  section { display: flex; flex-direction: column; gap: 1.4rem; }
+  .sec-head { display: flex; flex-direction: column; gap: .45rem; border-top: 2px solid var(--ink); padding-top: .8rem; }
+
+  /* ── diagnosis cards ──────────────────────────────────── */
+  .findings { display: grid; gap: .7rem; }
+  .finding {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: .5rem;
+    background: var(--surface);
+    border: 1px solid var(--rule);
+    border-left: 3px solid var(--flag, var(--rule));
+    border-radius: 5px;
+    padding: .95rem 1.1rem;
+    box-shadow: var(--shadow);
+  }
+  .finding.done { --flag: var(--accent); }
+  .finding.todo { --flag: var(--danger); }
+  .finding-top { display: flex; align-items: baseline; gap: .7rem; flex-wrap: wrap; }
+  .finding h3 { flex: 1 1 18rem; }
+  .finding p { font-size: .93rem; color: var(--muted); }
+  .finding p b { color: var(--ink); font-weight: 500; }
+
+  .chip {
+    font-family: "IBM Plex Mono", monospace;
+    font-size: .64rem; font-weight: 600;
+    letter-spacing: .1em; text-transform: uppercase;
+    white-space: nowrap;
+    border-radius: 3px;
+    padding: .25rem .45rem;
+  }
+  .chip.done { background: var(--accent-dim); color: var(--accent); }
+  .chip.todo { background: var(--danger-dim); color: var(--danger); }
+
+  /* ── numbered steps ───────────────────────────────────── */
+  .steps { display: flex; flex-direction: column; gap: 2.1rem; counter-reset: step; }
+  .step {
+    display: grid;
+    grid-template-columns: 2.6rem minmax(0, 1fr);
+    gap: 0 1.15rem;
+    align-items: start;
+  }
+  .step::before {
+    counter-increment: step;
+    content: counter(step, decimal-leading-zero);
+    font-family: "IBM Plex Mono", monospace;
+    font-size: .78rem; font-weight: 600;
+    font-variant-numeric: tabular-nums;
+    color: var(--accent);
+    background: var(--accent-dim);
+    border-radius: 4px;
+    padding: .3rem 0;
+    text-align: center;
+    margin-top: .12rem;
+  }
+  .step > .body { display: flex; flex-direction: column; gap: .8rem; min-width: 0; }
+  .step h3 { margin-bottom: -.1rem; }
+  .step p, .step li { font-size: .95rem; }
+  .step ul, .step ol { margin: 0; padding-left: 1.15rem; display: flex; flex-direction: column; gap: .4rem; }
+  .step li::marker { color: var(--muted); }
+
+  @media (max-width: 32rem) {
+    .step { grid-template-columns: minmax(0, 1fr); gap: .7rem; }
+    .step::before { width: 2.4rem; }
+  }
+
+  /* ── callout ──────────────────────────────────────────── */
+  .note {
+    display: flex; flex-direction: column; gap: .45rem;
+    background: var(--warn-dim);
+    border: 1px solid var(--rule);
+    border-radius: 5px;
+    padding: .85rem 1rem;
+  }
+  .note .eyebrow { color: var(--warn); }
+  .note p { font-size: .9rem; }
+
+  /* ── tables ───────────────────────────────────────────── */
+  .scroller { overflow-x: auto; border: 1px solid var(--rule); border-radius: 6px; background: var(--surface); }
+  table { border-collapse: collapse; width: 100%; min-width: 40rem; font-size: .88rem; }
+  th, td { text-align: left; vertical-align: top; padding: .7rem .9rem; border-bottom: 1px solid var(--rule); }
+  tbody tr:last-child td { border-bottom: 0; }
+  thead th {
+    font-family: "IBM Plex Mono", monospace;
+    font-size: .65rem; font-weight: 600;
+    letter-spacing: .12em; text-transform: uppercase;
+    color: var(--muted);
+    background: var(--sunken);
+    white-space: nowrap;
+  }
+  td:first-child { color: var(--danger); font-family: "IBM Plex Mono", monospace; font-size: .78rem; line-height: 1.55; }
+  .env-table td:first-child { color: var(--ink); font-weight: 500; }
+  .env-table td code { background: none; border: 0; padding: 0; }
+
+  footer {
+    border-top: 1px solid var(--rule);
+    padding-top: 1.2rem;
+    font-size: .82rem;
+    color: var(--muted);
+  }
+</style>
+
+<div class="wrap">
+
+  <header class="masthead">
+    <div class="eyebrow">Deployment Runbook</div>
+    <h1>Getting CIPRMS onto Render with Atlas</h1>
+    <p>Five things stood between this app and a working Render deploy. Four are already fixed in the code — the rest is Atlas and dashboard configuration you have to do by hand.</p>
+    <div class="route">
+      <b>MongoDB Compass</b><span aria-hidden="true">→</span>
+      <b>Atlas cluster</b><span aria-hidden="true">→</span>
+      <b>GitHub</b><span aria-hidden="true">→</span>
+      <b>Render web service</b>
+    </div>
+  </header>
+
+  <section>
+    <div class="sec-head">
+      <div class="eyebrow">Diagnosis</div>
+      <h2>Why it wasn't connecting</h2>
+    </div>
+
+    <div class="findings">
+
+      <div class="finding done">
+        <div class="finding-top">
+          <h3>The port was hardcoded to 3000</h3>
+          <span class="chip done">Fixed in code</span>
+        </div>
+        <p>Render assigns a port and injects it as <code>PORT</code>. Binding to 3000 anyway means Render never sees an open port and kills the deploy with <b>“Port scan timeout reached, no open ports detected.”</b> Now reads <code>process.env.PORT</code>.</p>
+      </div>
+
+      <div class="finding done">
+        <div class="finding-top">
+          <h3>The database name was missing from the connection</h3>
+          <span class="chip done">Fixed in code</span>
+        </div>
+        <p>This is the subtle one. The string Atlas gives you ends at <code>.mongodb.net/?retryWrites=…</code> — <b>no database in the path</b>. <code>client.db()</code> with no argument then silently falls back to a database called <code>test</code>, so the app connects perfectly and every page reads back empty. The database is now named explicitly via <code>MONGO_DB_NAME</code>, for both the app and the session store.</p>
+      </div>
+
+      <div class="finding done">
+        <div class="finding-top">
+          <h3>Sessions couldn't survive Render's proxy</h3>
+          <span class="chip done">Fixed in code</span>
+        </div>
+        <p>Render terminates HTTPS at its edge and forwards plain HTTP inward. Without <code>app.set('trust proxy', 1)</code>, Express thinks the request is insecure, refuses to send the <code>secure</code> session cookie, and <b>every login bounces straight back to the sign-in page</b>.</p>
+      </div>
+
+      <div class="finding done">
+        <div class="finding-top">
+          <h3>The server tried to open a web browser</h3>
+          <span class="chip done">Fixed in code</span>
+        </div>
+        <p>Startup called <code>open(url)</code> — useful locally, meaningless on a headless container. Now gated behind <code>NODE_ENV !== 'production'</code>.</p>
+      </div>
+
+      <div class="finding todo">
+        <div class="finding-top">
+          <h3>Atlas is almost certainly blocking Render's IP</h3>
+          <span class="chip todo">You must do this</span>
+        </div>
+        <p>Atlas rejects every connection from an address that isn't in Network Access. Render's free and starter tiers have <b>no fixed outbound IP</b>, so there is no single address to allow — and the failure looks like a 30-second hang ending in <code>MongoServerSelectionError</code>, not a permission error. Step 02 below.</p>
+      </div>
+
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head">
+      <div class="eyebrow">Runbook · in order</div>
+      <h2>What to do now</h2>
+    </div>
+
+    <div class="steps">
+
+      <div class="step">
+        <div class="body">
+          <h3>Create the Atlas database user</h3>
+          <p>In Atlas: <b>Database Access → Add New Database User</b>. Password authentication, built-in role <b>Read and write to any database</b>.</p>
+          <p>Then generate the password with Atlas's <b>Autogenerate Secure Password</b> and copy it immediately. If you type your own and it contains <code>@ : / ? # % &amp;</code>, you must percent-encode those characters inside the URI or authentication fails with a confusing <code>bad auth</code>:</p>
+          <pre><span class="cmt"># @ → %40   : → %3A   / → %2F   ? → %3F   # → %23   % → %25</span>
+<span class="cmt"># p@ss:word becomes</span>
+mongodb+srv://ciprms:<span class="hl">p%40ss%3Aword</span>@cluster0.xxxxx.mongodb.net/</pre>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="body">
+          <h3>Open Atlas Network Access to Render</h3>
+          <p><b>Network Access → Add IP Address → Allow Access From Anywhere</b>, which enters <code>0.0.0.0/0</code>.</p>
+          <p>This is required because Render doesn't give you a stable outbound IP to allowlist on the free and starter plans. Your cluster stays protected by the database user's credentials, which is the only thing standing between it and the internet — so treat that password accordingly and never commit it.</p>
+          <div class="note">
+            <div class="eyebrow">If you're on a paid Render plan</div>
+            <p>Render's Standard plan and above expose static outbound IPs under <b>Service → Connect → Outbound</b>. Allowlist those three addresses instead of <code>0.0.0.0/0</code> and delete the open rule.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="body">
+          <h3>Move the Compass data into Atlas</h3>
+          <p>Your local <code>ciprms</code> database has 18 collections. Atlas starts empty — nothing copies itself across, so the app will look broken until you migrate.</p>
+          <p><b>The fast way</b>, if you have the MongoDB Database Tools installed (they ship separately from Compass):</p>
+          <pre>mongodump --uri="mongodb://127.0.0.1:27017/ciprms" --out=./dump
+
+mongorestore --uri="mongodb+srv://USER:PASS@cluster0.xxxxx.mongodb.net/" \
+  --nsFrom="ciprms.*" --nsTo="<span class="hl">ciprms</span>.*" ./dump</pre>
+          <p><b>The no-install way</b>, straight from Compass — this is the same shape as the files already sitting in <code>Database_backup/</code>:</p>
+          <ul>
+            <li>Connect Compass to <code>127.0.0.1:27017</code>, open each collection, <b>Export Collection → JSON</b>.</li>
+            <li>Open a second Compass connection using the Atlas string, create the <code>ciprms</code> database, and <b>Import JSON</b> into a matching collection for each file.</li>
+          </ul>
+          <p>Whichever route you take, the database on Atlas must be named <b>exactly</b> what you set as <code>MONGO_DB_NAME</code> in the next step. A capital letter or a stray plural is enough to give you an empty app.</p>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="body">
+          <h3>Push to GitHub — without the secrets</h3>
+          <p><code>.env</code> is gitignored and is not tracked, which is correct: your Google client secret and session key stay off GitHub. That also means <b>Render will never see them</b> unless you enter them in the dashboard, which is step 05.</p>
+          <pre>git add -A
+git commit -m "Configure for Render deployment"
+git push origin main</pre>
+          <p>A new <code>.env.example</code> is included in this commit, documenting every variable without any real values.</p>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="body">
+          <h3>Create the Render service and set its environment</h3>
+          <p><b>New → Web Service</b>, connect the GitHub repo, then:</p>
+          <ul>
+            <li>Runtime <b>Node</b> · Build command <code>npm install</code> · Start command <code>npm start</code></li>
+            <li>Leave the port field alone — Render injects <code>PORT</code> and the app now reads it.</li>
+          </ul>
+          <p>Under <b>Environment</b>, add these. Every one of them is read by the server at boot:</p>
+          <div class="scroller">
+            <table class="env-table">
+              <thead>
+                <tr><th>Key</th><th>Value</th></tr>
+              </thead>
+              <tbody>
+                <tr><td>MONGO_URI</td><td>The full <code>mongodb+srv://…</code> string from Atlas → Connect → Drivers, with the real password substituted in</td></tr>
+                <tr><td>MONGO_DB_NAME</td><td><code>ciprms</code> — must match the database you restored into</td></tr>
+                <tr><td>NODE_ENV</td><td><code>production</code></td></tr>
+                <tr><td>SESSION_SECRET</td><td>Copy from your local <code>.env</code>, or generate a fresh 32-byte hex value</td></tr>
+                <tr><td>GOOGLE_CLIENT_ID</td><td>Copy from your local <code>.env</code></td></tr>
+                <tr><td>GOOGLE_CLIENT_SECRET</td><td>Copy from your local <code>.env</code></td></tr>
+                <tr><td>GOOGLE_TOKEN_ENCRYPTION_KEY</td><td>Copy from your local <code>.env</code> — changing this makes stored calendar tokens undecryptable</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p><code>CALLBACK_URL</code> from your local file is <b>not</b> needed — the app derives the OAuth callback from the incoming request host, so it adapts to the Render domain on its own.</p>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="body">
+          <h3>Authorize the Render domain in Google Cloud</h3>
+          <p>Once Render gives you a URL, go to <b>Google Cloud Console → APIs &amp; Services → Credentials</b>, open the OAuth client, and add to <b>Authorized redirect URIs</b>:</p>
+          <pre>https://<span class="hl">your-service</span>.onrender.com/auth/google/callback</pre>
+          <p>Skip this and Google refuses the sign-in with <code>Error 400: redirect_uri_mismatch</code>. Keep the existing ngrok and localhost entries if you still develop against them.</p>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="body">
+          <h3>Deploy and read the logs</h3>
+          <p>A healthy boot prints exactly this, in this order:</p>
+          <pre>✓ Connected to MongoDB successfully (database: <span class="hl">ciprms</span>)
+✓ MongoDB connected — starting server...
+CIPRMS server running → port 10000</pre>
+          <p>The database name in that first line is your migration check. If it says <code>test</code>, <code>MONGO_DB_NAME</code> didn't get set and you'll be looking at an empty app.</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head">
+      <div class="eyebrow">Reference</div>
+      <h2>When it fails, match the error</h2>
+    </div>
+    <div class="scroller">
+      <table>
+        <thead>
+          <tr><th>What you see</th><th>What it actually means</th><th>Fix</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>MongoServerSelectionError — hangs ~30s, then “connection closed”</td>
+            <td>Atlas is dropping the connection before it starts. Nearly always Network Access.</td>
+            <td>Add <code>0.0.0.0/0</code> in Atlas Network Access. Confirm the rule shows <b>Active</b>, not <b>Pending</b>.</td>
+          </tr>
+          <tr>
+            <td>MongoServerError: bad auth : authentication failed</td>
+            <td>Username or password is wrong, or a special character in the password broke the URI.</td>
+            <td>Percent-encode the password, or reset it to an autogenerated one. Check the user exists under Database Access.</td>
+          </tr>
+          <tr>
+            <td>querySrv ENOTFOUND _mongodb._tcp.cluster0…</td>
+            <td>The cluster hostname is mistyped, or <code>mongodb+srv</code> DNS lookups are blocked.</td>
+            <td>Re-copy the string from Atlas → Connect → Drivers rather than editing the old one by hand.</td>
+          </tr>
+          <tr>
+            <td>App loads, every table and list is empty</td>
+            <td>Connected to the wrong database — the old <code>test</code> fallback, or a name mismatch.</td>
+            <td>Set <code>MONGO_DB_NAME</code> to the exact database name in Atlas. Verify against the boot log line.</td>
+          </tr>
+          <tr>
+            <td>Port scan timeout reached, no open ports detected</td>
+            <td>Nothing bound to Render's assigned port.</td>
+            <td>Already fixed — confirm the deploy is running the latest commit, not a cached earlier one.</td>
+          </tr>
+          <tr>
+            <td>Login succeeds but immediately returns to the sign-in page</td>
+            <td>The session cookie is marked <code>secure</code> and never leaves the proxy.</td>
+            <td>Already fixed by <code>trust proxy</code>. If it persists, confirm <code>NODE_ENV</code> and <code>SESSION_SECRET</code> are both set on Render.</td>
+          </tr>
+          <tr>
+            <td>Error 400: redirect_uri_mismatch</td>
+            <td>Google doesn't recognize the Render callback URL.</td>
+            <td>Add the <code>onrender.com</code> callback URI in Google Cloud Console credentials. Changes take a minute to propagate.</td>
+          </tr>
+          <tr>
+            <td>SSL alert internal error / TLS handshake failure</td>
+            <td>Node too old for Atlas's TLS requirements.</td>
+            <td><code>engines.node</code> is pinned to <code>&gt;=20</code>. Set <code>NODE_VERSION=20</code> on Render if it still picks something older.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head">
+      <div class="eyebrow">Before you rely on it</div>
+      <h2>One thing Atlas doesn't solve</h2>
+    </div>
+    <p>Moving the database to Atlas makes your records durable. <b>Uploaded files are a separate problem.</b> This app writes avatars, archived documents, and OCR temp files to <code>uploads/</code> on the local disk — and Render's filesystem is ephemeral. Every deploy, restart, and idle-spindown wipes it.</p>
+    <p>Records will survive; the PDFs and profile pictures attached to them will vanish and leave broken links. The two ways out are a Render <b>Persistent Disk</b> mounted at <code>uploads/</code> (paid plans only), or moving uploads to object storage such as S3, Cloudflare R2, or Google Cloud Storage. Neither is required to get the deploy green — but plan for it before the system carries real data.</p>
+  </section>
+
+  <footer>
+    Code changes in this commit: <code>cirl.js</code> (port, trust proxy, session dbName, dev-only browser open), <code>db.js</code> (explicit database name), <code>.env.example</code> (new).
+  </footer>
+
+</div>
