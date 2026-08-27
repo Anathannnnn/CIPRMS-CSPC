@@ -5226,23 +5226,32 @@ app.use((err, req, res, next) => {
 // which just needs the bare `app` to drive with supertest against its own
 // test-managed DB connection.
 if (require.main === module) {
-  app.listen(PORT, async () => {
-    const url = `http://localhost:${PORT}`;
-    console.log(`CIPRMS server running → ${url}`);
+  (async () => {
     try {
       await connectDB();
-      await runLifecycleCheck(); // catch up immediately on startup, don't wait for the first interval tick
-      setInterval(runLifecycleCheck, LIFECYCLE_CHECK_INTERVAL_MS);
+      console.log('✓ MongoDB connected — starting server...');
     } catch (err) {
-      console.error('❌ Failed to connect to MongoDB on startup:', err);
+      console.error('❌ Failed to connect to MongoDB. Server will NOT start.', err);
+      process.exit(1);
     }
-    try {
-      const { default: open } = await import('open');
-      open(url);
-    } catch (err) {
-      console.log('Could not auto-open browser, but server is running');
-    }
-  });
+
+    app.listen(PORT, async () => {
+      const url = `http://localhost:${PORT}`;
+      console.log(`CIPRMS server running → ${url}`);
+      try {
+        await runLifecycleCheck(); // catch up immediately on startup
+        setInterval(runLifecycleCheck, LIFECYCLE_CHECK_INTERVAL_MS);
+      } catch (err) {
+        console.error('❌ Lifecycle check failed on startup:', err);
+      }
+      try {
+        const { default: open } = await import('open');
+        open(url);
+      } catch (err) {
+        console.log('Could not auto-open browser, but server is running');
+      }
+    });
+  })();
 }
 
 module.exports = app;
