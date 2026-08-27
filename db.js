@@ -34,17 +34,34 @@ const clientOptions = isTlsConnection
     }
   : {};
 
+const CONNECT_MAX_ATTEMPTS = 5;
+const CONNECT_BASE_DELAY_MS = 1000;
+
+// Atlas's shared/free tier (M0/M2/M5) sheds load under pressure and rejects
+// new connections with a 'SystemOverloadedError'-labeled failure rather than
+// queuing them — which, at the raw TLS layer, surfaces as an opaque handshake
+// error with no other symptom. Giving up on the first attempt and crashing
+// only makes this worse: Render restarts the process immediately, which
+// reconnects immediately, re-triggering the same rejection. Retrying with
+// backoff gives a transient overload a few seconds to clear instead.
+// https://www.mongodb.com/docs/atlas/overload-errors/
 async function connectDB() {
   if (db) return db;
-  try {
-    client = new MongoClient(uri, clientOptions);
-    await client.connect();
-    db = client.db(DB_NAME);
-    console.log(`✓ Connected to MongoDB successfully (database: ${db.databaseName})`);
-    return db;
-  } catch (error) {
-    console.error('❌ MongoDB connection error:', error);
-    throw error;
+  for (let attempt = 1; attempt <= CONNECT_MAX_ATTEMPTS; attempt++) {
+    try {
+      client = new MongoClient(uri, clientOptions);
+      await client.connect();
+      db = client.db(DB_NAME);
+      console.log(`✓ Connected to MongoDB successfully (database: ${db.databaseName})`);
+      return db;
+    } catch (error) {
+      const isLastAttempt = attempt === CONNECT_MAX_ATTEMPTS;
+      console.error(`❌ MongoDB connection attempt ${attempt}/${CONNECT_MAX_ATTEMPTS} failed:`, error.message);
+      if (isLastAttempt) throw error;
+      const delayMs = CONNECT_BASE_DELAY_MS * 2 ** (attempt - 1);
+      console.log(`Retrying in ${delayMs}ms...`);
+      await new Promise((resolve) => setTimeout(resolve, delayMs));
+    }
   }
 }
 
