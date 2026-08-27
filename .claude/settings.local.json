@@ -1,7 +1,10 @@
 {
   "permissions": {
     "allow": [
-      "Bash(npx jest *)"
+      "Bash(npx jest *)",
+      "WebSearch",
+      "Bash(git add *)",
+      "Bash(git commit -m ' *)"
     ]
   }
 }
