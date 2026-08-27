@@ -5,6 +5,7 @@ const path = require('path');
 const fs = require('fs');
 const crypto = require('crypto');
 const session = require('express-session');
+const MongoStore = require('connect-mongo');
 const passport = require('passport');
 const bcrypt = require('bcrypt');
 const rateLimit = require('express-rate-limit');
@@ -128,9 +129,15 @@ if (!process.env.SESSION_SECRET) {
 }
 app.use(session({
   secret: process.env.SESSION_SECRET || crypto.randomBytes(32).toString('hex'),
-  resave: true,
+  resave: false,
   saveUninitialized: false,
   rolling: true,   // reset expiry on each request
+  store: MongoStore.create({
+    mongoUrl: process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/ciprms',
+    collectionName: 'sessions',
+    ttl: SESSION_IDLE_TIMEOUT_MS / 1000, // MongoStore expects seconds
+    autoRemove: 'native' // MongoDB TTL index removes expired sessions automatically
+  }),
   cookie: {
     maxAge: SESSION_IDLE_TIMEOUT_MS,
     httpOnly: true,
