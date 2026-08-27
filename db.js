@@ -4,10 +4,16 @@ const uri = process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/ciprms';
 let client;
 let db;
 
+// MongoClient options — explicit TLS settings prevent SSL handshake failures
+// on cloud platforms (e.g. Render) caused by Node.js OpenSSL version mismatches.
+const clientOptions = uri.startsWith('mongodb+srv')
+  ? { tls: true, tlsAllowInvalidCertificates: false }
+  : {};
+
 async function connectDB() {
   if (db) return db;
   try {
-    client = new MongoClient(uri);
+    client = new MongoClient(uri, clientOptions);
     await client.connect();
     db = client.db();
     console.log('✓ Connected to MongoDB successfully');
@@ -27,7 +33,7 @@ function getDb() {
 
 async function closeDB() {
   if (client) {
-    await client.close();1
+    await client.close();
     client = undefined;
     db = undefined;
   }

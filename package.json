@@ -11,6 +11,10 @@
     "start": "node cirl.js",
     "test": "jest --runInBand"
   },
+  "engines": {
+    "node": ">=20.0.0"
+  },
+
   "dependencies": {
     "bcrypt": "^5.1.1",
     "connect-mongo": "^6.0.0",
