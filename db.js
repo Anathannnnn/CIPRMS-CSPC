@@ -10,6 +10,7 @@ dns.setDefaultResultOrder('ipv4first');
 const uri = process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/ciprms';
 let client;
 let db;
+let clientPromise;
 
 // The connection string Atlas hands you in the UI ("Connect → Drivers") has NO
 // database in its path — it ends at `.mongodb.net/?retryWrites=...`. In that
@@ -45,15 +46,14 @@ const CONNECT_BASE_DELAY_MS = 1000;
 // reconnects immediately, re-triggering the same rejection. Retrying with
 // backoff gives a transient overload a few seconds to clear instead.
 // https://www.mongodb.com/docs/atlas/overload-errors/
-async function connectDB() {
-  if (db) return db;
+async function connectWithRetry() {
   for (let attempt = 1; attempt <= CONNECT_MAX_ATTEMPTS; attempt++) {
     try {
-      client = new MongoClient(uri, clientOptions);
-      await client.connect();
-      db = client.db(DB_NAME);
-      console.log(`✓ Connected to MongoDB successfully (database: ${db.databaseName})`);
-      return db;
+      const candidate = new MongoClient(uri, clientOptions);
+      await candidate.connect();
+      client = candidate;
+      console.log('✓ Connected to MongoDB successfully');
+      return candidate;
     } catch (error) {
       const isLastAttempt = attempt === CONNECT_MAX_ATTEMPTS;
       console.error(`❌ MongoDB connection attempt ${attempt}/${CONNECT_MAX_ATTEMPTS} failed:`, error.message);
@@ -63,6 +63,26 @@ async function connectDB() {
       await new Promise((resolve) => setTimeout(resolve, delayMs));
     }
   }
+}
+
+// The session store (connect-mongo) needs a connection at module load time —
+// before connectDB() ever runs — and by default opens its own separate
+// MongoClient with no retry logic at all, bypassing everything above
+// entirely. Sharing one lazily-started, retry-enabled promise between both
+// consumers means there's only one connection attempt against Atlas, not
+// two racing each other and doubling the load on an already-overloaded
+// cluster.
+function getClientPromise() {
+  if (!clientPromise) clientPromise = connectWithRetry();
+  return clientPromise;
+}
+
+async function connectDB() {
+  if (db) return db;
+  const connectedClient = await getClientPromise();
+  db = connectedClient.db(DB_NAME);
+  console.log(`Using database: ${db.databaseName}`);
+  return db;
 }
 
 function getDb() {
@@ -77,7 +97,8 @@ async function closeDB() {
     await client.close();
     client = undefined;
     db = undefined;
+    clientPromise = undefined;
   }
 }
 
-module.exports = { connectDB, getDb, closeDB, DB_NAME, clientOptions };
+module.exports = { connectDB, getDb, closeDB, DB_NAME, clientOptions, getClientPromise };

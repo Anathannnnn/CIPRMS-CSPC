@@ -13,7 +13,7 @@ const multer = require('multer');
 const PDFDocument = require('pdfkit');
 const ExcelJS = require('exceljs');
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
-const { connectDB, getDb, DB_NAME, clientOptions: dbClientOptions } = require('./db');
+const { connectDB, getDb, DB_NAME, getClientPromise } = require('./db');
 const ocrRoutes = require('./routes/ocrRoutes');
 const { updateDocument, archiveToDocumentLibrary, archiveRequestRecordToLibrary } = require('./services/documentLibraryService');
 const googleCalendarService = require('./services/googleCalendarService');
@@ -141,8 +141,9 @@ app.use(session({
   saveUninitialized: false,
   rolling: true,   // reset expiry on each request
   store: MongoStore.create({
-    mongoUrl: process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/ciprms',
-    mongoOptions: dbClientOptions, // same Atlas TLS fix as db.js — see there for why
+    // Shares db.js's single retry-enabled connection instead of opening a
+    // second independent one — see getClientPromise() in db.js for why.
+    clientPromise: getClientPromise(),
     dbName: DB_NAME, // Atlas URIs carry no database in the path — see db.js
     collectionName: 'sessions',
     ttl: SESSION_IDLE_TIMEOUT_MS / 1000, // MongoStore expects seconds
