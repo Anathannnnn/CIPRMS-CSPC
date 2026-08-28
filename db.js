@@ -101,4 +101,4 @@ async function closeDB() {
   }
 }
 
-module.exports = { connectDB, getDb, closeDB, DB_NAME, clientOptions, getClientPromise };
+module.exports = { connectDB, getDb, closeDB, DB_NAME, getClientPromise };
