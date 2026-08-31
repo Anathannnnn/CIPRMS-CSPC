@@ -4417,7 +4417,24 @@ app.patch('/api/calendarevents/:id', requireAdmin, async (req, res) => {
   const id = parseInt(req.params.id);
   try {
     const db = getDb();
-    await db.collection('calendarevents').updateOne({ id }, { $set: pickCalendarEventFields(req.body) });
+    const setOps = pickCalendarEventFields(req.body);
+    const unsetOps = {};
+
+    // Recipients are optional on edit (the Edit modal now matches Create) —
+    // only touched when the client actually sends the field, so a PATCH that
+    // just changes e.g. the location never disturbs the existing audience.
+    if (req.body.recipients !== undefined) {
+      const rawRecipients = req.body.recipients;
+      const targetEmails = await resolveCalendarRecipients(db, rawRecipients);
+      const isScoped = Array.isArray(rawRecipients) && rawRecipients.length && !rawRecipients.includes('all');
+      if (isScoped) setOps.recipientEmails = targetEmails;
+      else unsetOps.recipientEmails = '';
+      if (targetEmails.length) setOps.googleAttendeeEmails = targetEmails;
+    }
+
+    const updateOp = { $set: setOps };
+    if (Object.keys(unsetOps).length) updateOp.$unset = unsetOps;
+    await db.collection('calendarevents').updateOne({ id }, updateOp);
     const updated = await db.collection('calendarevents').findOne({ id });
     if (!updated) return res.status(404).json({ error: 'Event not found.' });
 

@@ -9,6 +9,28 @@
     <link href="/velzon/assets/css/icons.min.css" rel="stylesheet" type="text/css" />
     <link href="/velzon/assets/css/app.min.css" rel="stylesheet" type="text/css" />
     <link href="/velzon/assets/css/custom.min.css" rel="stylesheet" type="text/css" />
+    <style>
+        /* Week time-grid: visible hour divider lines in both themes */
+        .fc-timegrid-slot { border-bottom: 1px solid var(--vz-border-color); }
+
+        /* No whole-cell "today" tint - instead just circle the date number itself.
+           FullCalendar injects its own stylesheet at runtime (after this one),
+           so overriding the --fc-today-bg-color variable alone isn't reliable -
+           force the actual background off directly instead. */
+        .fc-daygrid-day.fc-day-today,
+        .fc-timegrid-col.fc-day-today { background-color: transparent !important; }
+        .fc-day-today .fc-daygrid-day-number {
+            background-color: var(--vz-primary);
+            color: #fff;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            line-height: 1;
+        }
+    </style>
 </head>
 <body>
 

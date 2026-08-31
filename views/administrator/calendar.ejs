@@ -17,6 +17,43 @@
         .date-input-clean { text-align: center; }
         .date-input-clean::-webkit-inner-spin-button,
         .date-input-clean::-webkit-outer-spin-button { -webkit-appearance: none; display: none; margin: 0; }
+
+        /* Week/Day time-grid: visible hour divider lines in both themes */
+        .fc-timegrid-slot { border-bottom: 1px solid var(--vz-border-color); }
+
+        /* No whole-cell "today" tint - instead just circle the date number itself.
+           FullCalendar injects its own stylesheet at runtime (after this one),
+           so overriding the --fc-today-bg-color variable alone isn't reliable -
+           force the actual background off directly instead. */
+        .fc-daygrid-day.fc-day-today,
+        .fc-timegrid-col.fc-day-today { background-color: transparent !important; }
+        .fc-day-today .fc-daygrid-day-number {
+            background-color: var(--vz-primary);
+            color: #fff;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            line-height: 1;
+        }
+
+        /* Day view's empty all-day row - a faint placeholder hint instead of
+           blank space, only shown for the roles that can actually create events.
+           FullCalendar's own bundled CSS already puts a clearfix on this exact
+           element's ::after (content:"";display:table) and loads after this
+           stylesheet, so every property here needs !important to actually win. */
+        .cirl-empty-allday::after {
+            content: "+ Create event" !important;
+            display: inline-block !important;
+            color: var(--vz-secondary-color) !important;
+            font-style: italic !important;
+            font-size: .8rem !important;
+            opacity: .6 !important;
+            padding-left: 4px !important;
+            pointer-events: none !important;
+        }
     </style>
 </head>
 <body>
@@ -379,8 +416,15 @@ function showEdit(){
   document.getElementById('f-location').value = currentEv.extendedProps.location    || '';
   document.getElementById('f-desc').value     = currentEv.extendedProps.description || '';
   document.getElementById('f-type').value     = currentEv.classNames[0] || 'bg-primary-subtle';
-  // Recipients only apply at creation time — editing an existing event never re-notifies.
-  document.getElementById('f-recipients-wrap').classList.add('d-none');
+  // Same recipients field as Create — pre-filled from the event's current
+  // audience so Edit doesn't silently wipe it out on save. A "scoped" event
+  // (has recipientEmails) pre-selects each matching individual-user option;
+  // an unscoped ("All Users") event just pre-selects the "all" role option.
+  document.getElementById('f-recipients-wrap').classList.remove('d-none');
+  var editRecipientEmails = currentEv.extendedProps.recipientEmails;
+  Array.from(document.getElementById('f-recipients').options).forEach(function(o){
+    o.selected = editRecipientEmails ? editRecipientEmails.indexOf(o.value) !== -1 : (o.value === 'all');
+  });
   document.getElementById('btn-delete').classList.remove('d-none');
   document.getElementById('btn-edit-toggle').classList.add('d-none');
   document.getElementById('btn-save').classList.remove('d-none');
@@ -401,7 +445,8 @@ function docToFcEvent(doc){
       dbId:        doc.id,
       googleEventId: doc.googleEventId || null,
       attendance:  doc.attendance || [],
-      attendeeEmails: doc.googleAttendeeEmails || doc.recipientEmails || []
+      attendeeEmails: doc.googleAttendeeEmails || doc.recipientEmails || [],
+      recipientEmails: doc.recipientEmails || null
     }
   };
 }
@@ -451,6 +496,7 @@ document.addEventListener('DOMContentLoaded', function(){
     events:      '/api/calendarevents',   // FullCalendar fetches & maps automatically
     dayMaxEvents: 3,
     views: { timeGridWeek: { allDaySlot: false } },
+    allDayText: 'All-day',
 
     // FullCalendar JSON feed: map raw docs to FC event objects
     eventDataTransform: function(doc){ return docToFcEvent(doc); },
@@ -503,11 +549,11 @@ document.addEventListener('DOMContentLoaded', function(){
       var backBtn = calEl.querySelector('.fc-backToMonth-button');
       if (backBtn) backBtn.classList.toggle('d-none', info.view.type === 'dayGridMonth');
 
-      // Single-day view: replace the generic "all-day" row label with the
-      // actual date, e.g. "August 31", instead of the literal word "all-day".
+      // Day view's all-day row - hint that it's clickable instead of leaving
+      // it blank when there's nothing scheduled there yet.
       if (info.view.type === 'timeGridDay') {
-        var cushion = calEl.querySelector('.fc-timegrid-axis-cushion');
-        if (cushion) cushion.textContent = info.view.currentStart.toLocaleDateString('en-US', { month: 'long', day: 'numeric' });
+        var allDayEvents = calEl.querySelector('.fc-daygrid-day-events');
+        if (allDayEvents) allDayEvents.classList.toggle('cirl-empty-allday', CAN_MANAGE && allDayEvents.children.length === 0);
       }
     }
   });
@@ -544,7 +590,8 @@ document.addEventListener('DOMContentLoaded', function(){
     if(currentEv && !isAdding){
       // EDIT - persist to MongoDB then update FC event
       var dbId   = currentEv.extendedProps.dbId || currentEv.id;
-      var updates = { title:title, start:start, end:end, allDay:!st, className:cls, location:loc, description:desc };
+      var editRecipients = Array.from(document.getElementById('f-recipients').selectedOptions).map(function(o){ return o.value; });
+      var updates = { title:title, start:start, end:end, allDay:!st, className:cls, location:loc, description:desc, recipients:editRecipients };
       apiPatch(dbId, updates).then(function(data){
         if(data.success){
           currentEv.setProp('title', title);
@@ -553,6 +600,8 @@ document.addEventListener('DOMContentLoaded', function(){
           if(end) currentEv.setEnd(end);
           currentEv.setExtendedProp('location', loc);
           currentEv.setExtendedProp('description', desc);
+          currentEv.setExtendedProp('recipientEmails', data.event.recipientEmails || null);
+          currentEv.setExtendedProp('attendeeEmails', data.event.googleAttendeeEmails || data.event.recipientEmails || []);
           bsModal.hide(); upcomingEvent();
         }
       }).catch(function(e){ console.error(e); alert('Error saving event.'); });
