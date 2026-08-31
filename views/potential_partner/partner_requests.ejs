@@ -15,47 +15,47 @@
         .section-tab {
             padding: .45rem 1.15rem; border-radius: 20px; font-size: .82rem; font-weight: 600;
             cursor: pointer; border: 2px solid transparent; transition: all .18s;
-            display: flex; align-items: center; gap: .4rem; background: #f3f4fa; color: #495057;
+            display: flex; align-items: center; gap: .4rem; background: var(--vz-light); color: var(--vz-body-color);
         }
-        .section-tab:hover { background: #e8eaf6; color: #405189; }
-        .section-tab.active { background: #405189; color: #fff; border-color: #405189; }
+        .section-tab:hover { background: var(--vz-primary-bg-subtle); color: var(--vz-primary-text-emphasis); }
+        .section-tab.active { background: var(--vz-primary); color: #fff; border-color: var(--vz-primary); }
 
         /* ── CSPC-F-CIRL-04 "Documents Request Form" — styled to resemble the
            official paper form (bordered label/value rows) instead of a generic
            Bootstrap two-column grid. ── */
         .dr-form-header {
             display: flex; align-items: center; gap: 12px;
-            padding-bottom: 14px; margin-bottom: 4px; border-bottom: 3px solid #405189;
+            padding-bottom: 14px; margin-bottom: 4px; border-bottom: 3px solid var(--vz-primary);
         }
         .dr-form-header img { width: 44px; height: 44px; border-radius: 50%; object-fit: cover; flex-shrink: 0; }
-        .dr-form-header .dr-form-title { font-weight: 700; color: #405189; font-size: 1rem; margin: 0; letter-spacing: .3px; }
-        .dr-form-header .dr-form-subtitle { font-size: .75rem; color: #878a99; margin: 0; }
-        .dr-form-header .dr-form-code { margin-left: auto; font-size: .72rem; font-weight: 700; color: #405189; text-align: right; }
+        .dr-form-header .dr-form-title { font-weight: 700; color: var(--vz-primary); font-size: 1rem; margin: 0; letter-spacing: .3px; }
+        .dr-form-header .dr-form-subtitle { font-size: .75rem; color: var(--vz-secondary-color); margin: 0; }
+        .dr-form-header .dr-form-code { margin-left: auto; font-size: .72rem; font-weight: 700; color: var(--vz-primary); text-align: right; }
 
-        .dr-form-table { border: 1px solid #dfe3ea; border-radius: 6px; overflow: hidden; margin-top: 16px; }
-        .dr-row { display: flex; border-bottom: 1px solid #dfe3ea; }
+        .dr-form-table { border: 1px solid var(--vz-border-color); border-radius: 6px; overflow: hidden; margin-top: 16px; }
+        .dr-row { display: flex; border-bottom: 1px solid var(--vz-border-color); }
         .dr-row:last-child { border-bottom: none; }
         .dr-label {
-            flex: 0 0 230px; background: #f8f9fb; font-weight: 600; font-size: .78rem;
-            text-transform: uppercase; letter-spacing: .3px; color: #495057;
-            padding: 12px 16px; display: flex; align-items: center; border-right: 1px solid #dfe3ea;
+            flex: 0 0 230px; background: var(--vz-light); font-weight: 600; font-size: .78rem;
+            text-transform: uppercase; letter-spacing: .3px; color: var(--vz-body-color);
+            padding: 12px 16px; display: flex; align-items: center; border-right: 1px solid var(--vz-border-color);
         }
         .dr-value { flex: 1; padding: 10px 16px; display: flex; align-items: center; min-width: 0; }
         .dr-row-tall .dr-value { align-items: flex-start; padding-top: 12px; }
         .dr-readonly {
-            color: #313a46; font-weight: 500; font-size: .875rem;
-            background: #fbfbfc; border: 1px dashed #dfe3ea; border-radius: 4px;
+            color: var(--vz-body-color); font-weight: 500; font-size: .875rem;
+            background: var(--vz-light); border: 1px dashed var(--vz-border-color); border-radius: 4px;
             padding: 6px 10px; width: 100%;
         }
-        .dr-readonly small { display: block; color: #878a99; font-weight: 400; font-size: .68rem; margin-top: 2px; }
+        .dr-readonly small { display: block; color: var(--vz-secondary-color); font-weight: 400; font-size: .68rem; margin-top: 2px; }
         .dr-value .form-control, .dr-value .form-select { font-size: .875rem; }
         .dr-radio-group { display: flex; flex-wrap: wrap; gap: 10px 28px; }
-        .dr-radio { display: flex; align-items: center; gap: 6px; font-size: .875rem; font-weight: 500; color: #495057; cursor: pointer; margin: 0; }
+        .dr-radio { display: flex; align-items: center; gap: 6px; font-size: .875rem; font-weight: 500; color: var(--vz-body-color); cursor: pointer; margin: 0; }
         .dr-radio input { width: 16px; height: 16px; cursor: pointer; }
 
         @media (max-width: 576px) {
             .dr-row { flex-direction: column; }
-            .dr-label { border-right: none; border-bottom: 1px solid #dfe3ea; flex: 1 1 auto; }
+            .dr-label { border-right: none; border-bottom: 1px solid var(--vz-border-color); flex: 1 1 auto; }
             .dr-form-header { flex-wrap: wrap; }
             .dr-form-header .dr-form-code { margin-left: 0; text-align: left; }
         }
@@ -279,7 +279,7 @@
         <footer class="footer">
             <div class="container-fluid">
                 <div class="row">
-                    <div class="col-sm-6"><script>document.write(new Date().getFullYear())</script> &copy; CIPRMS &mdash; CSPC-CIRL</div>
+                    <div class="col-sm-6"><%= new Date().getFullYear() %> &copy; CIPRMS &mdash; CSPC-CIRL</div>
                     <div class="col-sm-6"><div class="text-sm-end d-none d-sm-block">Camarines Sur Polytechnic Colleges</div></div>
                 </div>
             </div>

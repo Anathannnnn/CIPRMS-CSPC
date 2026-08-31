@@ -12,6 +12,12 @@
     <link href="/velzon/assets/css/custom.min.css" rel="stylesheet"/>
     <link href="/velzon/assets/css/ciprms-bridge.css" rel="stylesheet"/>
     <link href="/velzon/assets/libs/dragula/dragula.min.css" rel="stylesheet"/>
+    <style>
+        /* Hide native up/down spinner arrows on date/time inputs and center the value */
+        .date-input-clean { text-align: center; }
+        .date-input-clean::-webkit-inner-spin-button,
+        .date-input-clean::-webkit-outer-spin-button { -webkit-appearance: none; display: none; margin: 0; }
+    </style>
 </head>
 <body>
 <div id="layout-wrapper">
@@ -40,7 +46,7 @@
                     <div class="col-12">
                         <div class="row">
 
-                            <!-- col-xl-3 sidebar â€” exact from apps-calendar.html -->
+                            <!-- col-xl-3 sidebar - exact from apps-calendar.html -->
                             <% var canManageCalendar = typeof user !== 'undefined' && user && user.role === 'Administrator'; %>
                             <div class="col-xl-3">
                                 <% if (canManageCalendar) { %>
@@ -89,7 +95,7 @@
                                 </div>
                             </div><!-- end col-xl-3 -->
 
-                            <!-- col-xl-9 main calendar â€” exact from apps-calendar.html -->
+                            <!-- col-xl-9 main calendar - exact from apps-calendar.html -->
                             <div class="col-xl-9">
                                 <div class="card card-h-100">
                                     <div class="card-body">
@@ -101,14 +107,16 @@
 
                         <div style="clear:both"></div>
 
-                        <!-- Event Modal â€” same structure as apps-calendar.html -->
+                        <!-- Event Modal - same structure as apps-calendar.html -->
                         <div class="modal fade" id="event-modal" tabindex="-1">
                             <div class="modal-dialog modal-dialog-centered">
                                 <div class="modal-content border-0">
                                     <div class="modal-header p-3 bg-info-subtle">
-                                        <h5 class="modal-title" id="modal-title">Event</h5>
-                                        <span class="badge bg-success-subtle text-success ms-2 d-none" id="v-gcal-badge" title="Recipients were invited via Google Calendar"><i class="ri-google-fill me-1"></i>Synced to Google Calendar</span>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                        <div class="flex-grow-1 overflow-hidden">
+                                            <h5 class="modal-title fs-3 fw-semibold text-truncate mb-1" id="modal-title">Event</h5>
+                                            <span class="badge bg-success-subtle text-success d-none" id="v-gcal-badge" title="Recipients were invited via Google Calendar"><i class="ri-google-fill me-1"></i>Synced to Google Calendar</span>
+                                        </div>
+                                        <button type="button" class="btn-close flex-shrink-0 ms-2" data-bs-dismiss="modal"></button>
                                     </div>
                                     <div class="modal-body p-4">
                                         <!-- View mode -->
@@ -125,10 +133,16 @@
                                                 <div class="flex-shrink-0 me-3"><i class="ri-map-pin-line text-muted fs-16"></i></div>
                                                 <div class="flex-grow-1"><h6 class="fw-semibold mb-0" id="v-location"></h6></div>
                                             </div>
-                                            <div class="d-flex mb-3">
+                                            <div class="d-flex mb-3" id="v-desc-wrap">
                                                 <div class="flex-shrink-0 me-3"><i class="ri-discuss-line text-muted fs-16"></i></div>
                                                 <div class="flex-grow-1"><p class="text-muted mb-0" id="v-desc"></p></div>
                                             </div>
+                                            <div class="d-flex align-items-center gap-2 mb-2 d-none" id="v-checkin-wrap">
+                                                <i class="ri-user-follow-line text-muted fs-16"></i>
+                                                <button type="button" class="btn btn-sm btn-success d-none" id="btn-checkin"><i class="ri-check-line"></i> Check In</button>
+                                                <span class="text-muted fs-13 d-none" id="v-checkin-status"></span>
+                                            </div>
+                                            <div class="mb-2 d-none" id="v-attendance-list"></div>
                                         </div>
                                         <!-- Edit/Add form -->
                                         <div id="edit-mode" class="d-none">
@@ -144,21 +158,21 @@
                                             </div>
                                             <div class="mb-3">
                                                 <label class="form-label">Event Name <span class="text-danger">*</span></label>
-                                                <input type="text" class="form-control" id="f-title" placeholder="e.g. MOA Renewal â€“ Osaka University">
+                                                <input type="text" class="form-control" id="f-title" placeholder="e.g. MOA Renewal - Osaka University">
                                                 <div class="invalid-feedback">Please provide an event name.</div>
                                             </div>
                                             <div class="mb-3">
                                                 <label class="form-label">Date <span class="text-danger">*</span></label>
-                                                <input type="date" class="form-control" id="f-date">
+                                                <input type="date" class="form-control date-input-clean" id="f-date">
                                             </div>
                                             <div class="row mb-3">
                                                 <div class="col-6">
                                                     <label class="form-label">Start Time</label>
-                                                    <input type="time" class="form-control" id="f-start">
+                                                    <input type="time" class="form-control date-input-clean" id="f-start">
                                                 </div>
                                                 <div class="col-6">
                                                     <label class="form-label">End Time</label>
-                                                    <input type="time" class="form-control" id="f-end">
+                                                    <input type="time" class="form-control date-input-clean" id="f-end">
                                                 </div>
                                             </div>
                                             <div class="mb-3">
@@ -202,7 +216,7 @@
         <footer class="footer">
             <div class="container-fluid">
                 <div class="row">
-                    <div class="col-sm-6"><script>document.write(new Date().getFullYear())</script> &copy; CIPRMS &mdash; CSPC-CIRL</div>
+                    <div class="col-sm-6"><%= new Date().getFullYear() %> &copy; CIPRMS &mdash; CSPC-CIRL</div>
                     <div class="col-sm-6"><div class="text-sm-end d-none d-sm-block">Camarines Sur Polytechnic Colleges</div></div>
                 </div>
             </div>
@@ -225,6 +239,7 @@
 // unless another existing permission explicitly grants editing (currently
 // none does). Administrator keeps full management, unchanged.
 var CAN_MANAGE = <%- JSON.stringify(canManageCalendar) %>;
+var CURRENT_USER_EMAIL = <%- JSON.stringify(user.email) %>;
 
 var cal, bsModal, currentEv = null, isAdding = false;
 
@@ -240,6 +255,20 @@ function str_tm(dt){
 function str_tm_input(dt){
   if(!dt) return '';
   return String(dt.getHours()).padStart(2,'0')+':'+String(dt.getMinutes()).padStart(2,'0');
+}
+// Button-visibility hint only — mirrors isEventOngoing() in cirl.js, which
+// re-validates authoritatively when the check-in request actually lands.
+function isOngoing(ev){
+  var now = new Date();
+  var start = ev.start, end = ev.end;
+  if(!start) return false;
+  if(ev.allDay){
+    var dayStart = new Date(start); dayStart.setHours(0,0,0,0);
+    var dayEnd = end || new Date(dayStart.getTime() + 24*60*60*1000);
+    return now >= dayStart && now < dayEnd;
+  }
+  var effectiveEnd = end || new Date(start.getTime() + 60*60*1000);
+  return now >= start && now <= effectiveEnd;
 }
 
 // â”€â”€ Upcoming events sidebar â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
@@ -267,6 +296,7 @@ function upcomingEvent(){
 function apiPost(payload){ return fetch('/api/calendarevents',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)}).then(function(r){return r.json();}); }
 function apiPatch(id,payload){ return fetch('/api/calendarevents/'+id,{method:'PATCH',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)}).then(function(r){return r.json();}); }
 function apiDelete(id){ return fetch('/api/calendarevents/'+id,{method:'DELETE'}).then(function(r){return r.json();}); }
+function apiCheckIn(id){ return fetch('/api/calendarevents/'+id+'/checkin',{method:'POST'}).then(function(r){return r.json();}); }
 
 // â”€â”€ Modal helpers â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 function showView(ev){
@@ -275,13 +305,44 @@ function showView(ev){
   document.getElementById('view-mode').classList.remove('d-none');
   document.getElementById('edit-mode').classList.add('d-none');
   document.getElementById('v-date').textContent = str_dt(ev.start);
-  document.getElementById('v-time').textContent = ev.allDay ? 'All day' : (str_tm(ev.start)+(ev.end?' â€“ '+str_tm(ev.end):''));
-  document.getElementById('v-location').textContent = ev.extendedProps.location || 'â€”';
-  document.getElementById('v-desc').textContent     = ev.extendedProps.description || 'â€”';
+  document.getElementById('v-time').textContent = ev.allDay ? 'All day' : (str_tm(ev.start)+(ev.end?' - '+str_tm(ev.end):''));
+  document.getElementById('v-location').textContent = ev.extendedProps.location || '-';
+  var hasDesc = !!(ev.extendedProps.description && ev.extendedProps.description.trim());
+  document.getElementById('v-desc-wrap').classList.toggle('d-none', !hasDesc);
+  document.getElementById('v-desc').textContent = hasDesc ? ev.extendedProps.description : '';
   document.getElementById('v-gcal-badge').classList.toggle('d-none', !ev.extendedProps.googleEventId);
   document.getElementById('btn-delete').classList.toggle('d-none', !CAN_MANAGE);
   document.getElementById('btn-edit-toggle').classList.toggle('d-none', !CAN_MANAGE);
   document.getElementById('btn-save').classList.add('d-none');
+
+  var attendeeEmails = ev.extendedProps.attendeeEmails || [];
+  var attendance = ev.extendedProps.attendance || [];
+  var isAttendee = attendeeEmails.indexOf(CURRENT_USER_EMAIL) !== -1;
+  var already = attendance.some(function(a){ return a.email === CURRENT_USER_EMAIL; });
+  var ongoing = isOngoing(ev);
+
+  document.getElementById('v-checkin-wrap').classList.toggle('d-none', !isAttendee);
+  document.getElementById('btn-checkin').classList.toggle('d-none', !(isAttendee && ongoing && !already));
+  var statusEl = document.getElementById('v-checkin-status');
+  if (isAttendee && already) {
+    var mine = attendance.filter(function(a){ return a.email === CURRENT_USER_EMAIL; })[0];
+    statusEl.textContent = 'Checked in at ' + str_tm(new Date(mine.checkedInAt));
+    statusEl.classList.remove('d-none');
+  } else {
+    statusEl.classList.add('d-none');
+  }
+
+  var listEl = document.getElementById('v-attendance-list');
+  if (CAN_MANAGE && attendeeEmails.length) {
+    listEl.innerHTML = '<small class="text-muted">Attendance: ' + attendance.length + ' / ' + attendeeEmails.length + ' checked in</small>'
+      + (attendance.length ? '<ul class="mb-0 fs-13">' + attendance.map(function(a){
+          return '<li>' + a.name + ' — ' + str_tm(new Date(a.checkedInAt)) + '</li>';
+        }).join('') + '</ul>' : '');
+    listEl.classList.remove('d-none');
+  } else {
+    listEl.classList.add('d-none');
+  }
+
   bsModal.show();
 }
 
@@ -338,7 +399,9 @@ function docToFcEvent(doc){
       location:    doc.location    || '',
       description: doc.description || '',
       dbId:        doc.id,
-      googleEventId: doc.googleEventId || null
+      googleEventId: doc.googleEventId || null,
+      attendance:  doc.attendance || [],
+      attendeeEmails: doc.googleAttendeeEmails || doc.recipientEmails || []
     }
   };
 }
@@ -371,7 +434,15 @@ document.addEventListener('DOMContentLoaded', function(){
 
   cal = new FullCalendar.Calendar(calEl, {
     timeZone:    'local',
-    headerToolbar: { left:'prev,next today', center:'title', right:'dayGridMonth,timeGridWeek,timeGridDay,listMonth' },
+    height:      650,   // fixed height: toolbar/day-header stay put, only the time-grid-slot rows scroll (no extra outer scrollbar)
+    headerToolbar: { left:'prev,next today', center:'title', right:'dayGridMonth,timeGridWeek,timeGridDay,listMonth backToMonth' },
+    customButtons: {
+      backToMonth: {
+        text: '✕',
+        hint: 'Back to calendar',
+        click: function(){ cal.changeView('dayGridMonth'); }
+      }
+    },
     initialView: 'dayGridMonth',
     editable:    CAN_MANAGE,
     droppable:   CAN_MANAGE,
@@ -379,6 +450,7 @@ document.addEventListener('DOMContentLoaded', function(){
     navLinks:    true,
     events:      '/api/calendarevents',   // FullCalendar fetches & maps automatically
     dayMaxEvents: 3,
+    views: { timeGridWeek: { allDaySlot: false } },
 
     // FullCalendar JSON feed: map raw docs to FC event objects
     eventDataTransform: function(doc){ return docToFcEvent(doc); },
@@ -423,7 +495,21 @@ document.addEventListener('DOMContentLoaded', function(){
     },
 
     eventDidMount: function(){ upcomingEvent(); },
-    loading: function(isLoading){ if (!isLoading) openFromQuery(); }
+    loading: function(isLoading){ if (!isLoading) openFromQuery(); },
+
+    // Clicking a date number (navLinks) drills into that day/week — show a
+    // way back to month view instead of requiring a page reload/browser-back.
+    datesSet: function(info){
+      var backBtn = calEl.querySelector('.fc-backToMonth-button');
+      if (backBtn) backBtn.classList.toggle('d-none', info.view.type === 'dayGridMonth');
+
+      // Single-day view: replace the generic "all-day" row label with the
+      // actual date, e.g. "August 31", instead of the literal word "all-day".
+      if (info.view.type === 'timeGridDay') {
+        var cushion = calEl.querySelector('.fc-timegrid-axis-cushion');
+        if (cushion) cushion.textContent = info.view.currentStart.toLocaleDateString('en-US', { month: 'long', day: 'numeric' });
+      }
+    }
   });
 
   cal.render();
@@ -431,8 +517,7 @@ document.addEventListener('DOMContentLoaded', function(){
   // Draggable external events (Administrator only — the palette isn't rendered otherwise)
   if(CAN_MANAGE && typeof FullCalendar.Draggable !== 'undefined'){
     new FullCalendar.Draggable(document.getElementById('external-events'),{
-      itemSelector: '.external-event',
-      eventData: function(el){ return { title: el.innerText.trim(), className: el.dataset.class }; }
+      itemSelector: '.external-event'
     });
   }
 
@@ -457,7 +542,7 @@ document.addEventListener('DOMContentLoaded', function(){
     var desc  = document.getElementById('f-desc').value.trim();
 
     if(currentEv && !isAdding){
-      // EDIT â€” persist to MongoDB then update FC event
+      // EDIT - persist to MongoDB then update FC event
       var dbId   = currentEv.extendedProps.dbId || currentEv.id;
       var updates = { title:title, start:start, end:end, allDay:!st, className:cls, location:loc, description:desc };
       apiPatch(dbId, updates).then(function(data){
@@ -472,7 +557,7 @@ document.addEventListener('DOMContentLoaded', function(){
         }
       }).catch(function(e){ console.error(e); alert('Error saving event.'); });
     } else {
-      // ADD â€” persist to MongoDB then add to FC
+      // ADD - persist to MongoDB then add to FC
       var recipients = Array.from(document.getElementById('f-recipients').selectedOptions).map(function(o){ return o.value; });
       var payload = { title:title, start:start, end:end, allDay:!st, className:cls, location:loc, description:desc, recipients:recipients };
       apiPost(payload).then(function(data){
@@ -492,6 +577,19 @@ document.addEventListener('DOMContentLoaded', function(){
     apiDelete(dbId).then(function(data){
       if(data.success){ currentEv.remove(); bsModal.hide(); upcomingEvent(); }
     }).catch(function(e){ console.error(e); alert('Error deleting event.'); });
+  });
+
+  document.getElementById('btn-checkin').addEventListener('click', function(){
+    if(!currentEv) return;
+    var dbId = currentEv.extendedProps.dbId || currentEv.id;
+    apiCheckIn(dbId).then(function(res){
+      if(res.success){
+        currentEv.setExtendedProp('attendance', res.attendance);
+        showView(currentEv);
+      } else {
+        alert(res.message || 'Check-in failed.');
+      }
+    }).catch(function(e){ console.error(e); alert('Error checking in.'); });
   });
 });
 

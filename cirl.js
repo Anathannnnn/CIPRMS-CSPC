@@ -4260,6 +4260,23 @@ function pickCalendarEventFields(body) {
   return safe;
 }
 
+// Shared by the check-in route (authoritative) and the calendar page's client
+// script (button-visibility hint only — the route re-validates regardless).
+function isEventOngoing(event) {
+  const now = new Date();
+  const start = event.start ? new Date(event.start) : null;
+  if (!start || isNaN(start)) return false;
+  let end = event.end ? new Date(event.end) : null;
+  if (event.allDay) {
+    const dayStart = new Date(start);
+    dayStart.setHours(0, 0, 0, 0);
+    const dayEnd = (end && !isNaN(end)) ? end : new Date(dayStart.getTime() + 24 * 60 * 60 * 1000);
+    return now >= dayStart && now < dayEnd;
+  }
+  if (!end || isNaN(end)) end = new Date(start.getTime() + 60 * 60 * 1000); // no end recorded — assume 1hr
+  return now >= start && now <= end;
+}
+
 // Visibility: Administrators see every event (full oversight). Every other
 // role only sees events that either name them as a recipient or were never
 // scoped to specific recipients in the first place — events predating this
@@ -4432,6 +4449,45 @@ app.delete('/api/calendarevents/:id', requireAdmin, async (req, res) => {
     res.json({ success: true });
   } catch (err) {
     res.status(500).json({ error: err.message });
+  }
+});
+
+// Self check-in for meeting attendance. Any authenticated user may call this —
+// eligibility is enforced by attendee-list membership below, not by role,
+// since an invited attendee can be Administrator or Auth. Personnel (the two
+// roles that reach the Calendar page today).
+app.post('/api/calendarevents/:id/checkin', requireAuth, async (req, res) => {
+  try {
+    const db = getDb();
+    const id = parseInt(req.params.id);
+    const event = await db.collection('calendarevents').findOne({ id });
+    if (!event) return res.status(404).json({ success: false, message: 'Event not found.' });
+
+    const email = req.session.user.email;
+    const invited = event.googleAttendeeEmails || event.recipientEmails || [];
+    if (!invited.includes(email)) {
+      return res.status(403).json({ success: false, message: 'You are not invited to this event.' });
+    }
+    if (!isEventOngoing(event)) {
+      return res.status(409).json({ success: false, message: 'Check-in is only available while the meeting is in progress.' });
+    }
+
+    const name = req.session.user.name || email;
+    // 'attendance.email': { $ne: email } is the atomic dedup guard — no race
+    // window for duplicate entries on a double-click. mongodb driver v7:
+    // findOneAndUpdate returns the document directly (or null), not {value}.
+    let updated = await db.collection('calendarevents').findOneAndUpdate(
+      { id, 'attendance.email': { $ne: email } },
+      { $push: { attendance: { email, name, checkedInAt: new Date() } } },
+      { returnDocument: 'after' }
+    );
+    // null means the filter excluded this doc — already checked in. Re-fetch
+    // for an idempotent response instead of erroring on a harmless repeat click.
+    if (!updated) updated = await db.collection('calendarevents').findOne({ id });
+
+    res.json({ success: true, attendance: updated.attendance || [] });
+  } catch (err) {
+    res.status(500).json({ success: false, message: 'Server error.' });
   }
 });
 

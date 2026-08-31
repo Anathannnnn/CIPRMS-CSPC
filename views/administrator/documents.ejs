@@ -14,19 +14,19 @@
     <!-- Custom Css -->
     <link href="/velzon/assets/css/custom.min.css" rel="stylesheet" type="text/css" />
     <style>
-        .doc-card { transition: all 0.2s; border: 1px solid #e9ebec !important; }
-        .doc-card:hover { transform: translateY(-3px); border-color: #405189 !important; box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
+        .doc-card { transition: all 0.2s; border: 1px solid var(--vz-border-color) !important; }
+        .doc-card:hover { transform: translateY(-3px); border-color: var(--vz-primary) !important; box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
         .ocr-spinner { display: none; margin: 20px auto; }
         .extracted-data { display: none; }
         .folder-list .list-group-item { border: none; padding: 0.6rem 1.25rem; transition: all 0.2s; display: flex; align-items: center; }
-        .folder-list .list-group-item:hover { background-color: #f3f6f9; }
-        .folder-list .list-group-item.active { background-color: #e2e5ed; color: #405189; font-weight: 600; }
+        .folder-list .list-group-item:hover { background-color: var(--vz-light); }
+        .folder-list .list-group-item.active { background-color: var(--vz-primary-bg-subtle); color: var(--vz-primary-text-emphasis); font-weight: 600; }
         .folder-list .list-group-item i.folder-icon { font-size: 16px; width: 24px; }
         .folder-actions { display: none; white-space: nowrap; }
         .folder-list .list-group-item:hover .folder-actions { display: inline-block; }
         .folder-actions i { cursor: pointer; padding: 2px 4px; }
-        .folder-actions i:hover { color: #405189; }
-        .stat-box { padding: 12px; border: 1px solid #e9ebec; border-radius: 8px; text-center: center; }
+        .folder-actions i:hover { color: var(--vz-primary); }
+        .stat-box { padding: 12px; border: 1px solid var(--vz-border-color); border-radius: 8px; text-center: center; }
         .tag-pills-container { overflow-x: auto; white-space: nowrap; padding-bottom: 5px; }
         .tag-pill { margin-right: 8px; cursor: pointer; }
     </style>
@@ -207,7 +207,7 @@
         <footer class="footer">
             <div class="container-fluid">
                 <div class="row">
-                    <div class="col-sm-6"><script>document.write(new Date().getFullYear())</script> &copy; CIPRMS &mdash; CSPC-CIRL</div>
+                    <div class="col-sm-6"><%= new Date().getFullYear() %> &copy; CIPRMS &mdash; CSPC-CIRL</div>
                     <div class="col-sm-6"><div class="text-sm-end d-none d-sm-block">Camarines Sur Polytechnic Colleges</div></div>
                 </div>
             </div>

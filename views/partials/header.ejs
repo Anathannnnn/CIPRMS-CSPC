@@ -210,6 +210,25 @@
 </div>
 
 <script>
+// Persist the dark/light toggle across full page navigations. Velzon's own
+// app.js only writes the theme to sessionStorage when a hidden radio input
+// from its full layout-customizer sidebar changes (#layout-mode-dark/light)
+// — this app never includes that sidebar, so the topbar toggle updated the
+// <html> attribute in memory only and got silently reset on every reload.
+// setTimeout(...,0) defers our read to just after app.js's own click
+// handler (registered earlier) has already flipped the attribute.
+(function(){
+  var themeBtn = document.querySelector('.light-dark-mode');
+  if (themeBtn) {
+    themeBtn.addEventListener('click', function(){
+      setTimeout(function(){
+        var theme = document.documentElement.getAttribute('data-bs-theme') || 'light';
+        try { sessionStorage.setItem('data-bs-theme', theme); } catch(e) {}
+      }, 0);
+    });
+  }
+})();
+
 // Load notification badge
 fetch('/api/notifications/unread-count')
     .then(r => r.json())

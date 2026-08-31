@@ -35,9 +35,9 @@
         vertical-align: middle;
       }
       .gridjs-sort:hover { opacity: 0.8; }
-      .gridjs-sort-neutral::after { content: "⇅"; font-size: 11px; color: #6c757d; }
-      .gridjs-sort-asc::after     { content: "↑"; font-size: 12px; color: #405189; }
-      .gridjs-sort-desc::after    { content: "↓"; font-size: 12px; color: #405189; }
+      .gridjs-sort-neutral::after { content: "⇅"; font-size: 11px; color: var(--vz-secondary-color); }
+      .gridjs-sort-asc::after     { content: "↑"; font-size: 12px; color: var(--vz-primary); }
+      .gridjs-sort-desc::after    { content: "↓"; font-size: 12px; color: var(--vz-primary); }
       .gridjs-sort-asc, .gridjs-sort-desc { opacity: 1 !important; }
       th.gridjs-th-sort:hover .gridjs-sort { opacity: 1; }
     </style>
@@ -736,7 +736,7 @@
         <footer class="footer">
             <div class="container-fluid">
                 <div class="row">
-                    <div class="col-sm-6"><script>document.write(new Date().getFullYear())</script> &copy; CIPRMS &mdash; CSPC-CIRL</div>
+                    <div class="col-sm-6"><%= new Date().getFullYear() %> &copy; CIPRMS &mdash; CSPC-CIRL</div>
                     <div class="col-sm-6"><div class="text-sm-end d-none d-sm-block">Camarines Sur Polytechnic Colleges</div></div>
                 </div>
             </div>

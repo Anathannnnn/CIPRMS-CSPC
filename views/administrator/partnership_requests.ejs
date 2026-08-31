@@ -92,21 +92,21 @@
       font-size: .84rem;
       font-weight: 600;
       cursor: pointer;
-      border: 2px solid #e9ecef;
+      border: 2px solid var(--vz-border-color);
       transition: all .2s ease;
       display: flex;
       align-items: center;
       gap: .75rem;
       text-decoration: none;
-      color: #495057;
-      background: #fff;
+      color: var(--vz-body-color);
+      background: var(--vz-secondary-bg);
       box-shadow: 0 1px 4px rgba(0,0,0,.05);
     }
 
     .section-tab:hover {
-      border-color: #405189;
-      background: #f0f3ff;
-      color: #405189;
+      border-color: var(--vz-primary);
+      background: var(--vz-primary-bg-subtle);
+      color: var(--vz-primary-text-emphasis);
       transform: translateY(-2px);
       box-shadow: 0 4px 14px rgba(64,81,137,.12);
     }
@@ -132,8 +132,8 @@
     }
 
     .section-tab:not(.active) .section-tab-icon {
-      background: #eef1fb;
-      color: #405189;
+      background: var(--vz-primary-bg-subtle);
+      color: var(--vz-primary-text-emphasis);
     }
 
     .section-tab.active .section-tab-icon {
@@ -144,12 +144,12 @@
     /* DR variant accent */
     .section-tab[id="tab-dr"]:not(.active):hover {
       border-color: #0ab39c;
-      background: #f0fdf4;
-      color: #0ab39c;
+      background: var(--vz-success-bg-subtle);
+      color: var(--vz-success-text-emphasis);
     }
     .section-tab[id="tab-dr"]:not(.active):hover .section-tab-icon {
-      background: #d1fae5;
-      color: #0ab39c;
+      background: var(--vz-success-bg-subtle);
+      color: var(--vz-success-text-emphasis);
     }
     .section-tab[id="tab-dr"].active {
       background: linear-gradient(135deg, #0ab39c 0%, #17c653 100%);
@@ -182,12 +182,12 @@
       flex-shrink: 0;
     }
     .section-tab:not(.active) .tab-count {
-      background: #e2e7f8;
-      color: #405189;
+      background: var(--vz-primary-bg-subtle);
+      color: var(--vz-primary-text-emphasis);
     }
     .section-tab[id="tab-dr"]:not(.active) .tab-count {
-      background: #d1fae5;
-      color: #0ab39c;
+      background: var(--vz-success-bg-subtle);
+      color: var(--vz-success-text-emphasis);
     }
 
     /* ── Filter row ── */
@@ -229,7 +229,7 @@
     .empty-state {
       padding: 3rem 1rem;
       text-align: center;
-      color: #adb5bd;
+      color: var(--vz-secondary-color);
     }
 
     .empty-state i {
@@ -244,18 +244,18 @@
       text-transform: uppercase;
       font-weight: 700;
       letter-spacing: .05em;
-      color: #8496af;
+      color: var(--vz-secondary-color);
       margin-bottom: 3px;
     }
 
     .detail-value {
       font-weight: 600;
       font-size: .9rem;
-      color: #212529;
+      color: var(--vz-heading-color);
     }
 
     .detail-box {
-      background: #f8f9fa;
+      background: var(--vz-light);
       border-radius: 8px;
       padding: 1rem;
     }
@@ -554,7 +554,7 @@
             <div class="container-fluid">
               <div class="row">
                 <div class="col-sm-6">
-                  <script>document.write(new Date().getFullYear())</script> &copy; CIPRMS &mdash; CSPC-CIRL
+                  <%= new Date().getFullYear() %> &copy; CIPRMS &mdash; CSPC-CIRL
                 </div>
                 <div class="col-sm-6">
                   <div class="text-sm-end d-none d-sm-block">Camarines Sur Polytechnic Colleges</div>

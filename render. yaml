@@ -7,8 +7,4 @@ services:
     startCommand: npm start
     envVars:
       - key: NODE_ENV
-<<<<<<< HEAD
         value: production
-=======
-        value: production
->>>>>>> 15fc4c50373f3d03e37409961cc9d899bef570a8
